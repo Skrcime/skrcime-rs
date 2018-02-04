@@ -28,6 +28,7 @@ fn main() {
     rocket::ignite()
         .manage(pool::init())
         .mount("/", routes::index())
+        .mount("/session", routes::session())
         .mount("/users", routes::users())
         .mount("/static", routes::files())
         .attach(Template::fairing())
