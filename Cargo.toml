@@ -1,0 +1,35 @@
+[package]
+name = "skrcime-rs"
+version = "0.1.0"
+authors = ["Nil Gradisnik <nil.gradisnik@gmail.com>"]
+
+[dependencies]
+rocket = "0.3"
+rocket_codegen = "0.3"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+r2d2-diesel = "1.0"
+r2d2 = "0.8"
+dotenv = "0.10"
+dotenv_codegen = "0.11"
+bcrypt = "0.1"
+
+[dependencies.uuid]
+version = "0.5"
+features = ["serde"]
+
+[dependencies.chrono]
+version = "0.4"
+features = ["serde"]
+
+[dependencies.diesel]
+version = "1.1"
+features = ["postgres", "chrono", "uuid"]
+
+[dependencies.rocket_contrib]
+version = "0.3"
+features = ["handlebars_templates"]
+
+[dev-dependencies]
+stainless = "0.1.12"
