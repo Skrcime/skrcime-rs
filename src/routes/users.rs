@@ -4,7 +4,7 @@ use diesel::result::Error::{DatabaseError, NotFound};
 use diesel::result::DatabaseErrorKind::UniqueViolation;
 
 use rocket::response::{status, Failure};
-use rocket::http::{RawStr, Status};
+use rocket::http::Status;
 use rocket_contrib::{Json, Value};
 
 use bcrypt::hash;
@@ -38,7 +38,7 @@ pub fn create(
         .values(&new_user)
         .get_result(&*conn)
         .map(|user: Users| {
-            let url = format!("/users/{:?}", user.email);
+            let url = format!("/users/{:?}", user.id);
             status::Created(url, Some("".to_string()))
         })
         .map_err(|err| match err {
@@ -47,12 +47,12 @@ pub fn create(
         })
 }
 
-#[get("/<email>", format = "application/json")]
-pub fn get_by_email(conn: DbConnection, email: &RawStr) -> Result<Json<Value>, Failure> {
+#[get("/<id>")]
+pub fn get(conn: DbConnection, id: i32) -> Result<Json<Value>, Failure> {
     use db::schema::users::dsl;
 
     dsl::users
-        .filter(dsl::email.eq(&email.as_str()))
+        .filter(dsl::id.eq(&id))
         .first::<Users>(&*conn)
         .map(|user| Json(json!(user)))
         .map_err(|err| match err {

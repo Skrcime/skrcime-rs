@@ -7,8 +7,8 @@ describe! test {
         let client = Client::new(rocket()).unwrap();
     }
 
-    describe! post {
-        it "responds with 201 created" {
+    describe! create {
+        it "should responds with 201 Created" {
             let payload = &json!({
                 "first_name": "Foo",
                 "last_name": "Bar",
@@ -25,9 +25,9 @@ describe! test {
         }
     }
 
-    describe! get_by_email {
-        it "responds with JSON body" {
-            let res = client.get("/users/test@email.com").dispatch();
+    describe! get {
+        it "responds with 200 Ok" {
+            let res = client.get("/users/39").dispatch();
 
             assert_eq!(res.status(), Status::Ok);
         }

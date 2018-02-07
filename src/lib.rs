@@ -27,7 +27,7 @@ use rocket_contrib::Template;
 pub fn rocket() -> rocket::Rocket {
     rocket::ignite()
         .manage(pool::init())
-        .mount("/", routes::index())
+        .mount("/", routes::pages())
         .mount("/session", routes::session())
         .mount("/users", routes::users())
         .mount("/static", routes::files())
