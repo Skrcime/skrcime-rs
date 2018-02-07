@@ -1,14 +1,16 @@
 use diesel::insert_into;
 use diesel::prelude::*;
+use diesel::result::Error::{DatabaseError, NotFound};
+use diesel::result::DatabaseErrorKind::UniqueViolation;
 
+use rocket::response::{status, Failure};
+use rocket::http::{RawStr, Status};
 use rocket_contrib::{Json, Value};
-use rocket::http::RawStr;
 
 use bcrypt::hash;
 
 use db::request::DbConnection;
 use db::models::{NewUser, Users};
-use db::schema::users::dsl::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct JsonUser {
@@ -19,35 +21,42 @@ pub struct JsonUser {
 }
 
 #[post("/", format = "application/json", data = "<user>")]
-pub fn create(conn: DbConnection, user: Json<JsonUser>) -> Json<Value> {
+pub fn create(
+    conn: DbConnection,
+    user: Json<JsonUser>,
+) -> Result<status::Created<String>, Failure> {
     use db::schema::users;
 
-    let hashed_password = hash(&user.password.to_string(), 8).expect("bcrypt error");
     let new_user = NewUser {
         first_name: user.first_name.to_string(),
         last_name: user.last_name.to_string(),
         email: user.email.to_string(),
-        password: hashed_password,
+        password: hash(&user.password.to_string(), 8).expect("bcrypt error"),
     };
 
-    let result: QueryResult<Users> = insert_into(users::table)
+    insert_into(users::table)
         .values(&new_user)
-        .get_result(&*conn);
-
-    match result {
-        Ok(user) => Json(json!(user)),
-        Err(err) => Json(json!({"error": err.to_string()})),
-    }
+        .get_result(&*conn)
+        .map(|user: Users| {
+            let url = format!("/users/{:?}", user.email);
+            status::Created(url, Some("".to_string()))
+        })
+        .map_err(|err| match err {
+            DatabaseError(UniqueViolation, _) => Failure(Status::Conflict),
+            _ => Failure(Status::InternalServerError),
+        })
 }
 
-#[get("/<remail>", format = "application/json")]
-pub fn get_by_email(conn: DbConnection, remail: &RawStr) -> Json<Value> {
-    let result = users
-        .filter(email.eq(&remail.as_str()))
-        .first::<Users>(&*conn);
+#[get("/<email>", format = "application/json")]
+pub fn get_by_email(conn: DbConnection, email: &RawStr) -> Result<Json<Value>, Failure> {
+    use db::schema::users::dsl;
 
-    match result {
-        Ok(user) => Json(json!(user)),
-        Err(err) => Json(json!({"error": err.to_string()})),
-    }
+    dsl::users
+        .filter(dsl::email.eq(&email.as_str()))
+        .first::<Users>(&*conn)
+        .map(|user| Json(json!(user)))
+        .map_err(|err| match err {
+            NotFound => Failure(Status::NotFound),
+            _ => Failure(Status::InternalServerError),
+        })
 }

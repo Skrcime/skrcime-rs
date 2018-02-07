@@ -1,10 +1,8 @@
--- You will need this extension installed
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE DOMAIN email_address AS varchar(128) CHECK (value ~ '.+@.+');
 
 CREATE TABLE users (
-    id uuid PRIMARY KEY DEFAULT uuid_generate_v1mc(),
+    id serial PRIMARY KEY,
     first_name varchar(32) NOT NULL,
     last_name varchar(32) NOT NULL,
     email email_address NOT NULL,

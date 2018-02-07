@@ -15,17 +15,13 @@ dotenv = "0.10"
 dotenv_codegen = "0.11"
 bcrypt = "0.1"
 
-[dependencies.uuid]
-version = "0.5"
-features = ["serde"]
-
 [dependencies.chrono]
 version = "0.4"
 features = ["serde"]
 
 [dependencies.diesel]
 version = "1.1"
-features = ["postgres", "chrono", "uuid"]
+features = ["postgres", "chrono"]
 
 [dependencies.rocket_contrib]
 version = "0.3"
@@ -33,3 +29,4 @@ features = ["handlebars_templates"]
 
 [dev-dependencies]
 stainless = "0.1"
+rand = "0.4"
