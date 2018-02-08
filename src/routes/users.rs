@@ -16,6 +16,7 @@ use db::models::{NewUser, Users};
 pub struct JsonUser {
     pub first_name: String,
     pub last_name: String,
+    pub avatar_url: Option<String>,
     pub email: String,
     pub password: String,
 }
@@ -30,6 +31,10 @@ pub fn create(
     let new_user = NewUser {
         first_name: user.first_name.to_string(),
         last_name: user.last_name.to_string(),
+        avatar_url: match user.avatar_url {
+            Some(ref avatar) => Some(avatar.to_string()),
+            None => None,
+        },
         email: user.email.to_string(),
         password: hash(&user.password.to_string(), 8).expect("bcrypt error"),
     };

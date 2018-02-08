@@ -2,7 +2,7 @@ use skrcime::rocket;
 use rocket::local::Client;
 use rocket::http::Status;
 
-describe! pages {
+describe! test {
     before_each {
         let client = Client::new(rocket()).unwrap();
     }

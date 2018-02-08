@@ -20,6 +20,7 @@ pub struct Users {
 pub struct NewUser {
     pub first_name: String,
     pub last_name: String,
+    pub avatar_url: Option<String>,
     pub email: String,
     pub password: String,
 }
