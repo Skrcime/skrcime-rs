@@ -13,7 +13,7 @@ before_script:
 script:
   - cargo build
   - cargo install diesel_cli
-  - diesel migration redo
+  - diesel migration run
   - cargo test --test mod pages -- --test-threads=1
   - cargo test --test mod users -- --test-threads=1
   - cargo test --test mod session -- --test-threads=1
