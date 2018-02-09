@@ -11,7 +11,7 @@ addons:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - echo "DATABASE_URL=postgres://postgres@localhost/travis_ci_test" > .env
-  - cargo install diesel_cli --no-default-features --features=postgres
+  - cargo install diesel_cli --no-default-features --features=postgres || echo "diesel_cli already installed"
   - diesel migration run
 
 script:
