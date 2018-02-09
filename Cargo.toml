@@ -21,6 +21,7 @@ features = ["serde"]
 
 [dependencies.diesel]
 version = "1.1"
+default-features = false
 features = ["postgres", "chrono"]
 
 [dependencies.rocket_contrib]
