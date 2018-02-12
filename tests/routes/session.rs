@@ -9,7 +9,7 @@ describe! test {
 
     describe! create {
         it "should responds with 201 Created" {
-            let res = client.post("/session")
+            let res = client.post("/api/session")
                 .body(&json!({
                     "email": "user@one.com",
                     "password": "secretone"
@@ -24,7 +24,7 @@ describe! test {
         }
 
         it "should responds with 401 Unauthorized if email invalid" {
-            let res = client.post("/session")
+            let res = client.post("/api/session")
                 .body(&json!({
                     "email": "user@foo.com",
                     "password": "secretone"
@@ -36,7 +36,7 @@ describe! test {
         }
 
         it "should responds with 401 Unauthorized if password invalid" {
-            let res = client.post("/session")
+            let res = client.post("/api/session")
                 .body(&json!({
                     "email": "user@one.com",
                     "password": "secretone-foo"

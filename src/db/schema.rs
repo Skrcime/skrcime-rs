@@ -1,8 +1,7 @@
 table! {
     users (id) {
         id -> Int4,
-        first_name -> Varchar,
-        last_name -> Varchar,
+        name -> Varchar,
         email -> Varchar,
         password -> Text,
         admin -> Nullable<Bool>,

@@ -2,8 +2,6 @@ use diesel::prelude::*;
 use diesel::result::Error::NotFound;
 
 use rocket_contrib::Json;
-use rocket::outcome::IntoOutcome;
-use rocket::request::{self, FromRequest, Request};
 use rocket::response::{status, Failure};
 use rocket::http::{Cookie, Cookies, Status};
 
@@ -22,19 +20,6 @@ pub struct Credentials {
 
 #[derive(Debug)]
 pub struct Session(pub i32);
-
-impl<'a, 'r> FromRequest<'a, 'r> for Session {
-    type Error = ();
-
-    fn from_request(request: &'a Request<'r>) -> request::Outcome<Session, ()> {
-        request
-            .cookies()
-            .get_private(COOKIE_KEY)
-            .and_then(|cookie| cookie.value().parse().ok())
-            .map(|id| Session(id))
-            .or_forward(())
-    }
-}
 
 #[post("/", format = "application/json", data = "<cred>")]
 pub fn create(

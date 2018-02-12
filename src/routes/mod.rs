@@ -1,10 +1,10 @@
 use rocket;
 
-mod pages;
-mod session;
-mod users;
-mod errors;
-mod files;
+pub mod pages;
+pub mod session;
+pub mod users;
+pub mod errors;
+pub mod files;
 
 pub fn pages() -> Vec<rocket::Route> {
     routes![

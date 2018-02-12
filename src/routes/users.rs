@@ -20,8 +20,7 @@ pub fn create(
     use db::schema::users;
 
     let new_user = NewUser {
-        first_name: user.first_name.to_string(),
-        last_name: user.last_name.to_string(),
+        name: user.name.to_string(),
         avatar_url: match user.avatar_url {
             Some(ref avatar) => Some(avatar.to_string()),
             None => None,
@@ -74,8 +73,7 @@ pub fn update(conn: DbConnection, id: i32, user: Json<UpdateUser>) -> Result<Jso
 fn user_to_json(user: User) -> Json<Value> {
     Json(json!({
         "id": user.id,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
+        "name": user.name,
         "email": user.email,
         "admin": user.admin,
         "welcome": user.welcome,

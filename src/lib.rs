@@ -28,9 +28,9 @@ pub fn rocket() -> rocket::Rocket {
     rocket::ignite()
         .manage(pool::init())
         .mount("/", routes::pages())
-        .mount("/session", routes::session())
-        .mount("/users", routes::users())
         .mount("/static", routes::files())
+        .mount("/api/session", routes::session())
+        .mount("/api/users", routes::users())
         .attach(Template::fairing())
         .catch(routes::errors())
 }
