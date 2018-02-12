@@ -8,7 +8,7 @@ use rocket::http::{Cookie, Cookies, Status};
 use bcrypt::verify;
 
 use db::request::DbConnection;
-use db::models::Users;
+use db::models::User;
 
 static COOKIE_KEY: &'static str = "sk_s";
 
@@ -28,12 +28,12 @@ pub fn create(
 
     dsl::users
         .filter(dsl::email.eq(&cred.email.to_string()))
-        .first::<Users>(&*conn)
+        .first::<User>(&*conn)
         .map_err(|err| match err {
             NotFound => Failure(Status::Unauthorized),
             _ => Failure(Status::InternalServerError),
         })
-        .and_then(|user: Users| {
+        .and_then(|user: User| {
             verify(&cred.password.to_string(), &user.password)
                 .map_err(|_| Failure(Status::InternalServerError))
                 .and_then(|valid| {

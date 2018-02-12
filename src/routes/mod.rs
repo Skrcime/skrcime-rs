@@ -13,7 +13,7 @@ pub fn session() -> Vec<rocket::Route> {
     routes![session::create]
 }
 pub fn users() -> Vec<rocket::Route> {
-    routes![users::create, users::get]
+    routes![users::create, users::get, users::update]
 }
 pub fn errors() -> Vec<rocket::Catcher> {
     errors![errors::not_found]

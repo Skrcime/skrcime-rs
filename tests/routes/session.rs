@@ -9,12 +9,11 @@ describe! test {
 
     describe! create {
         it "should responds with 201 Created" {
-            let login = &json!({
-                "email": "test@email.com",
-                "password": "test"
-            });
             let res = client.post("/session")
-                .body(login.to_string())
+                .body(&json!({
+                    "email": "user@one.com",
+                    "password": "secretone"
+                }).to_string())
                 .header(ContentType::JSON)
                 .dispatch();
 
