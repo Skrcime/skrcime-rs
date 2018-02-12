@@ -7,9 +7,9 @@ describe! test {
         let client = Client::new(rocket()).unwrap();
     }
 
-    describe! index {
+    describe! login {
         it "responds with HTML" {
-            let mut res = client.get("/").dispatch();
+            let mut res = client.get("/login").dispatch();
             let body = res.body().and_then(|b| b.into_string()).unwrap();
 
             assert_eq!(res.status(), Status::Ok);

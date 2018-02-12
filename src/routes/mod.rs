@@ -7,7 +7,12 @@ mod errors;
 mod files;
 
 pub fn pages() -> Vec<rocket::Route> {
-    routes![pages::index]
+    routes![
+        pages::index,
+        pages::login,
+        pages::index_redirect,
+        pages::login_redirect
+    ]
 }
 pub fn session() -> Vec<rocket::Route> {
     routes![session::create]

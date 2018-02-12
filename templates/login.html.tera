@@ -1,0 +1,6 @@
+{% extends "base" %}
+
+{% block content %}
+    <h1>Hello Skrci.me</h1>
+    <p>Login</p>
+{% endblock content %}
