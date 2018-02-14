@@ -62,7 +62,11 @@ pub fn get_401() -> Failure {
 }
 
 #[patch("/me", format = "application/json", data = "<user>")]
-pub fn update(conn: DbConnection, session: Session, mut user: Json<UpdateUser>) -> Result<Json<Value>, Failure> {
+pub fn update(
+    conn: DbConnection,
+    session: Session,
+    mut user: Json<UpdateUser>,
+) -> Result<Json<Value>, Failure> {
     use db::schema::users::dsl;
 
     user.password = match user.password {

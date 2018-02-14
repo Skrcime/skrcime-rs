@@ -19,7 +19,7 @@ describe! test {
                 }).to_string())
                 .header(ContentType::JSON)
                 .dispatch();
-            let body = json_body(res.body_string()).unwrap();
+            let body = json_body(&mut res);
 
             assert_eq!(res.status(), Status::Created);
             assert_eq!(res.headers().get_one("Location").unwrap(), "/users/1");
@@ -68,7 +68,7 @@ describe! test {
             let cookie = login_cookie(&client, "user@one.com", "secretone").unwrap();
             let mut res = client.get("/api/users/me").cookie(cookie.clone()).dispatch();
 
-            let body = json_body(res.body_string()).unwrap();
+            let body = json_body(&mut res);
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["id"], 1);
             assert_eq!(body["name"], "User");
@@ -100,7 +100,7 @@ describe! test {
                     "name": "User Updated",
                 }).to_string())
                 .dispatch();
-            let body = json_body(res.body_string()).unwrap();
+            let body = json_body(&mut res);
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["name"], "User Updated");
@@ -114,7 +114,7 @@ describe! test {
                     "avatar_url": "https://avatar-updated.png",
                 }).to_string())
                 .dispatch();
-            let body = json_body(res.body_string()).unwrap();
+            let body = json_body(&mut res);
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["avatar_url"], "https://avatar-updated.png");
@@ -128,7 +128,7 @@ describe! test {
                     "welcome": false,
                 }).to_string())
                 .dispatch();
-            let body = json_body(res.body_string()).unwrap();
+            let body = json_body(&mut res);
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["welcome"], false);
@@ -157,7 +157,7 @@ describe! test {
                     "email": "user@two-updated.com",
                 }).to_string())
                 .dispatch();
-            let body = json_body(res.body_string()).unwrap();
+            let body = json_body(&mut res);
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["email"], "user@two-updated.com");

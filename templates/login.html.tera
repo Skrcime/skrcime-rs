@@ -1,6 +1,23 @@
 {% extends "base" %}
 
+{% block head %}
+    <script src="/static/login.js"></script>
+{% endblock head %}
+
 {% block content %}
     <h1>Hello Skrci.me</h1>
     <p>Login</p>
+
+    <form name="login_form" action="/api/session" method="post">
+        <div>
+            <label for="email">Name:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div>
+            <label for="password">E-mail:</label>
+            <input type="password" id="password" name="password">
+        </div>
+
+        <button>Login</button>
+    </form>
 {% endblock content %}

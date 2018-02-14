@@ -1,17 +1,18 @@
 extern crate rocket;
 
 use rocket::Response;
-use rocket::local::Client;
-use rocket::http::{Cookie, ContentType};
+use rocket::local::{Client, LocalResponse};
+use rocket::http::{ContentType, Cookie};
 
 use serde_json::{from_str, Value};
 
-pub fn json_body(body: Option<String>) -> Option<Value> {
-    from_str(&body.unwrap()).unwrap()
+pub fn json_body(res: &mut LocalResponse) -> Value {
+    from_str(&res.body_string().unwrap()).unwrap()
 }
 
 pub fn user_id_cookie(response: &Response) -> Option<Cookie<'static>> {
-    let cookie = response.headers()
+    let cookie = response
+        .headers()
         .get("Set-Cookie")
         .filter(|v| v.starts_with("sk_s"))
         .nth(0)
@@ -21,7 +22,8 @@ pub fn user_id_cookie(response: &Response) -> Option<Cookie<'static>> {
 }
 
 pub fn login_cookie(client: &Client, email: &str, pass: &str) -> Option<Cookie<'static>> {
-    let response = client.post("/api/session")
+    let response = client
+        .post("/api/session")
         .body(&json!({
             "email": email,
             "password": pass

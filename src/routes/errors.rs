@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+
 use rocket::Request;
 use rocket_contrib::Template;
 

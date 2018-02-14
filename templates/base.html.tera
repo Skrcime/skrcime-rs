@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>{{title}}</title>
+
+    <script src="/static/common.js"></script>
+    {% block head %}{% endblock head %}
   </head>
   <body>
     {% block content %}{% endblock content %}

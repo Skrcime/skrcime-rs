@@ -1,5 +1,12 @@
 {% extends "base" %}
 
+{% block head %}
+    <script>window.user = {}</script>
+    <script src="/static/index.js"></script>
+{% endblock head %}
+
 {% block content %}
     <h1>Hello Skrci.me</h1>
+
+    <button id="me">Me</button>
 {% endblock content %}
