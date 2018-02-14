@@ -10,7 +10,7 @@ describe! test {
     describe! login {
         it "responds with HTML" {
             let mut res = client.get("/login").dispatch();
-            let body = res.body().and_then(|b| b.into_string()).unwrap();
+            let body = res.body_string().unwrap();
 
             assert_eq!(res.status(), Status::Ok);
             assert!(body.contains("Hello Skrci.me"));

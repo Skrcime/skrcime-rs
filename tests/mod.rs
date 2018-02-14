@@ -7,7 +7,5 @@ extern crate rocket;
 extern crate serde_json;
 extern crate skrcime;
 
-mod utils;
-
-#[cfg(test)]
+mod common;
 mod routes;

@@ -1,7 +1,6 @@
 #![cfg_attr(feature = "clippy", feature(plugin))]
 #![feature(plugin)]
 #![plugin(rocket_codegen)]
-#![cfg_attr(test, plugin(stainless))]
 
 extern crate bcrypt;
 extern crate chrono;

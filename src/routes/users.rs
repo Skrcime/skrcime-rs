@@ -9,6 +9,7 @@ use rocket_contrib::{Json, Value};
 
 use bcrypt::hash;
 
+use super::session::Session;
 use db::request::DbConnection;
 use db::models::{NewUser, UpdateUser, User};
 
@@ -42,12 +43,12 @@ pub fn create(
         })
 }
 
-#[get("/<id>")]
-pub fn get(conn: DbConnection, id: i32) -> Result<Json<Value>, Failure> {
+#[get("/me")]
+pub fn get(conn: DbConnection, session: Session) -> Result<Json<Value>, Failure> {
     use db::schema::users::dsl;
 
     dsl::users
-        .filter(dsl::id.eq(&id))
+        .filter(dsl::id.eq(&session.0))
         .first::<User>(&*conn)
         .map(user_to_json)
         .map_err(|err| match err {
@@ -55,12 +56,21 @@ pub fn get(conn: DbConnection, id: i32) -> Result<Json<Value>, Failure> {
             _ => Failure(Status::InternalServerError),
         })
 }
+#[get("/me", rank = 2)]
+pub fn get_401() -> Failure {
+    Failure(Status::Unauthorized)
+}
 
-#[patch("/<id>", format = "application/json", data = "<user>")]
-pub fn update(conn: DbConnection, id: i32, user: Json<UpdateUser>) -> Result<Json<Value>, Failure> {
+#[patch("/me", format = "application/json", data = "<user>")]
+pub fn update(conn: DbConnection, session: Session, mut user: Json<UpdateUser>) -> Result<Json<Value>, Failure> {
     use db::schema::users::dsl;
 
-    diesel::update(dsl::users.filter(dsl::id.eq(&id)))
+    user.password = match user.password {
+        Some(ref password) => Some(hash(&password.to_string(), 8).expect("bcrypt error")),
+        None => None,
+    };
+
+    diesel::update(dsl::users.filter(dsl::id.eq(&session.0)))
         .set(&user.into_inner())
         .get_result(&*conn)
         .map(|user: User| Json(json!(user)))
@@ -68,6 +78,10 @@ pub fn update(conn: DbConnection, id: i32, user: Json<UpdateUser>) -> Result<Jso
             DatabaseError(UniqueViolation, _) => Failure(Status::Conflict),
             _ => Failure(Status::InternalServerError),
         })
+}
+#[patch("/me", rank = 2)]
+pub fn update_401() -> Failure {
+    Failure(Status::Unauthorized)
 }
 
 fn user_to_json(user: User) -> Json<Value> {

@@ -2,7 +2,7 @@ use skrcime::rocket;
 use rocket::local::Client;
 use rocket::http::{ContentType, Status};
 use serde_json::Value;
-use utils::json_body;
+use common::{json_body, login_cookie};
 
 describe! test {
     before_each {
@@ -19,7 +19,7 @@ describe! test {
                 }).to_string())
                 .header(ContentType::JSON)
                 .dispatch();
-            let body = json_body(res.body());
+            let body = json_body(res.body_string()).unwrap();
 
             assert_eq!(res.status(), Status::Created);
             assert_eq!(res.headers().get_one("Location").unwrap(), "/users/1");
@@ -65,9 +65,10 @@ describe! test {
 
     describe! get {
         it "should responds with 200 and user body" {
-            let mut res = client.get("/api/users/1").dispatch();
-            let body = json_body(res.body());
+            let cookie = login_cookie(&client, "user@one.com", "secretone").unwrap();
+            let mut res = client.get("/api/users/me").cookie(cookie.clone()).dispatch();
 
+            let body = json_body(res.body_string()).unwrap();
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["id"], 1);
             assert_eq!(body["name"], "User");
@@ -79,64 +80,102 @@ describe! test {
             assert!(body["created_at"].is_string());
         }
 
-        it "should respond with 404 if no user found" {
-            let res = client.get("/api/users/999").dispatch();
+        it "should respond with 401 if not logged in" {
+            let res = client.get("/api/users/me").dispatch();
 
-            assert_eq!(res.status(), Status::NotFound);
+            assert_eq!(res.status(), Status::Unauthorized);
         }
     }
 
     describe! update {
+        before_each {
+            let _cookie = login_cookie(&client, "user@two.com", "secrettwo").unwrap();
+        }
+
         it "should update name" {
-            let mut res = client.patch("/api/users/2")
+            let mut res = client.patch("/api/users/me")
+                .cookie(_cookie.clone())
+                .header(ContentType::JSON)
                 .body(&json!({
                     "name": "User Updated",
                 }).to_string())
-                .header(ContentType::JSON)
                 .dispatch();
-            let body = json_body(res.body());
+            let body = json_body(res.body_string()).unwrap();
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["name"], "User Updated");
         }
 
-        it "should update email" {
-            let mut res = client.patch("/api/users/2")
-                .body(&json!({
-                    "email": "email@two-updated.com",
-                }).to_string())
-                .header(ContentType::JSON)
-                .dispatch();
-            let body = json_body(res.body());
-
-            assert_eq!(res.status(), Status::Ok);
-            assert_eq!(body["email"], "email@two-updated.com");
-        }
-
         it "should update avatar_url" {
-            let mut res = client.patch("/api/users/2")
+            let mut res = client.patch("/api/users/me")
+                .cookie(_cookie.clone())
+                .header(ContentType::JSON)
                 .body(&json!({
                     "avatar_url": "https://avatar-updated.png",
                 }).to_string())
-                .header(ContentType::JSON)
                 .dispatch();
-            let body = json_body(res.body());
+            let body = json_body(res.body_string()).unwrap();
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["avatar_url"], "https://avatar-updated.png");
         }
 
         it "should update welcome" {
-            let mut res = client.patch("/api/users/2")
+            let mut res = client.patch("/api/users/me")
+                .cookie(_cookie.clone())
+                .header(ContentType::JSON)
                 .body(&json!({
                     "welcome": false,
                 }).to_string())
-                .header(ContentType::JSON)
                 .dispatch();
-            let body = json_body(res.body());
+            let body = json_body(res.body_string()).unwrap();
 
             assert_eq!(res.status(), Status::Ok);
             assert_eq!(body["welcome"], false);
+        }
+
+
+        it "should respond with 401 if not logged in" {
+            let res = client.patch("/api/users/me")
+                .header(ContentType::JSON)
+                .body(&json!({
+                    "name": "User Updated",
+                }).to_string())
+                .dispatch();
+
+            assert_eq!(res.status(), Status::Unauthorized);
+        }
+    }
+
+    describe! update_email {
+        it "should update email" {
+            let cookie = login_cookie(&client, "user@two.com", "secrettwo").unwrap();
+            let mut res = client.patch("/api/users/me")
+                .cookie(cookie.clone())
+                .header(ContentType::JSON)
+                .body(&json!({
+                    "email": "user@two-updated.com",
+                }).to_string())
+                .dispatch();
+            let body = json_body(res.body_string()).unwrap();
+
+            assert_eq!(res.status(), Status::Ok);
+            assert_eq!(body["email"], "user@two-updated.com");
+        }
+    }
+
+    describe! update_password {
+        it "should update password" {
+            let cookie = login_cookie(&client, "user@two-updated.com", "secrettwo").unwrap();
+            let res = client.patch("/api/users/me")
+                .cookie(cookie.clone())
+                .header(ContentType::JSON)
+                .body(&json!({
+                    "password": "supersecret-new",
+                }).to_string())
+                .dispatch();
+
+            assert_eq!(res.status(), Status::Ok);
         }
     }
 }

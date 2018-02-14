@@ -18,7 +18,7 @@ pub struct Credentials {
     pub password: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Session(pub i32);
 
 #[post("/", format = "application/json", data = "<cred>")]

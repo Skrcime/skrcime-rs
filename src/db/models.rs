@@ -28,6 +28,7 @@ pub struct NewUser {
 pub struct UpdateUser {
     pub name: Option<String>,
     pub email: Option<String>,
+    pub password: Option<String>,
     pub avatar_url: Option<String>,
     pub welcome: Option<bool>,
 }
