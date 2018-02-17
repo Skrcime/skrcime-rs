@@ -13,8 +13,8 @@
   "scripts": {
     "build": "run-p build:*",
     "watch": "run-p watch:*",
-    "build:js": "rollup -c",
-    "watch:js": "rollup -c -w",
+    "build:js": "rollup -c client/rollup.config.js",
+    "watch:js": "rollup -c client/rollup.config.js -w",
     "build:css": "lessc css/main.less static/main.css --clean-css",
     "watch:css": "less-watch-compiler css static main.less"
   }
