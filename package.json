@@ -1,0 +1,13 @@
+{
+  "name": "skrcime-client",
+  "version": "1.0.0",
+  "description": "Skrci.me client side code",
+  "devDependencies": {
+    "rollup": "^0.56.1",
+    "rollup-plugin-uglify": "^3.0.0"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  }
+}

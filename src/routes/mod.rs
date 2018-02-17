@@ -8,9 +8,9 @@ pub mod files;
 
 pub fn pages() -> Vec<rocket::Route> {
     routes![
-        pages::index,
+        pages::landing,
         pages::login,
-        pages::index_redirect,
+        pages::landing_redirect,
         pages::login_redirect
     ]
 }

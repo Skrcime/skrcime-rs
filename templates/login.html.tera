@@ -1,8 +1,6 @@
 {% extends "base" %}
-
-{% block head %}
-    <script src="/static/login.js"></script>
-{% endblock head %}
+{% block page %}login{% endblock page %}
+{% block title %}Prijava{% endblock title %}
 
 {% block content %}
     <h1>Hello Skrci.me</h1>

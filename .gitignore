@@ -2,3 +2,6 @@
 /target
 **/*.rs.bk
 .env
+/node_modules
+bundle.js
+bundle.js.map

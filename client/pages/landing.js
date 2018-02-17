@@ -1,12 +1,13 @@
+import api from '../api'
 
 const onMe = (e) => {
     e.preventDefault()
 
-    window.common.api.me()
+    api.me()
         .then((res) => console.log(res))
         .catch((err) => console.error('Error', err))
 }
 
-window.onload = () => {
+export default function init() {
     document.getElementById('me').addEventListener('click', onMe)
 }

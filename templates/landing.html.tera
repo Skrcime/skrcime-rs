@@ -1,8 +1,6 @@
 {% extends "base" %}
-
-{% block head %}
-    <script src="/static/index.js"></script>
-{% endblock head %}
+{% block page %}landing{% endblock page %}
+{% block title %}Dobrodosli{% endblock title %}
 
 {% block content %}
     <h1>Hello Skrci.me</h1>

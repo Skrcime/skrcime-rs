@@ -11,9 +11,9 @@ struct Context {
 }
 
 #[get("/")]
-pub fn index(_session: Session) -> Template {
+pub fn landing(_session: Session) -> Template {
     Template::render(
-        "index",
+        "landing",
         &Context {
             title: DEFAULT_TITLE.to_string(),
         },
@@ -31,7 +31,7 @@ fn login() -> Template {
 }
 
 #[get("/", rank = 2)]
-fn index_redirect() -> Redirect {
+fn landing_redirect() -> Redirect {
     Redirect::to("/login")
 }
 

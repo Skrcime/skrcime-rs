@@ -43,7 +43,7 @@ impl<'a, 'r> FromRequest<'a, 'r> for Session {
         req.cookies()
             .get_private(COOKIE_KEY)
             .and_then(|cookie| cookie.value().parse().ok())
-            .map(|id| Session(id))
+            .map(Session)
             .or_forward(())
     }
 }
