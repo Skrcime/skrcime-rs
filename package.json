@@ -3,11 +3,19 @@
   "version": "1.0.0",
   "description": "Skrci.me client side code",
   "devDependencies": {
+    "less": "^3.0.1",
+    "less-plugin-clean-css": "^1.5.1",
+    "less-watch-compiler": "^1.11.0",
+    "npm-run-all": "^4.1.2",
     "rollup": "^0.56.1",
     "rollup-plugin-uglify": "^3.0.0"
   },
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w"
+    "build": "run-p build:*",
+    "watch": "run-p watch:*",
+    "build:js": "rollup -c",
+    "watch:js": "rollup -c -w",
+    "build:css": "lessc css/main.less static/main.css --clean-css",
+    "watch:css": "less-watch-compiler css static main.less"
   }
 }

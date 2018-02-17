@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="/static/favicon.ico">
     <title>{% block title %}{% endblock title %} - Skrci.me</title>
 
+    <link rel="stylesheet" href="/static/main.css">
     <script src="/static/bundle.js"></script>
   </head>
   <body data-page="{% block page %}{% endblock page %}">
