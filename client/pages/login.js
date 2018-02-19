@@ -7,10 +7,11 @@ const onLogin = e => {
     api
         .login({ email: email.value, password: password.value })
         .then(res => {
-            if (res.ok) window.location = "/";
-            else alert(`${res.status} ${res.statusText}`);
+            window.location = "/";
         })
-        .catch(err => console.error("Error", err));
+        .catch(err => {
+            alert(JSON.stringify(err, null, "\t"));
+        });
 };
 
 export default function init() {

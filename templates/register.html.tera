@@ -1,11 +1,15 @@
 {% extends "base" %}
-{% block page %}login{% endblock page %}
-{% block title %}Prijava{% endblock title %}
+{% block page %}register{% endblock page %}
+{% block title %}Registracija{% endblock title %}
 
 {% block content %}
-    <h1>Prijava</h1>
+    <h1>Registracija</h1>
 
-    <form name="login_form" action="/api/session" method="post">
+    <form name="register_form" action="/api/users" method="post">
+        <div>
+            <label for="name">Ime:</label>
+            <input type="name" id="name" name="name">
+        </div>
         <div>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email">
@@ -15,6 +19,6 @@
             <input type="password" id="password" name="password">
         </div>
 
-        <button>Prijava</button>
+        <button>Registracija</button>
     </form>
 {% endblock content %}

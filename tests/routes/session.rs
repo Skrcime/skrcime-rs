@@ -23,7 +23,7 @@ describe! test {
             assert!(set_cookie.contains("HttpOnly"));
         }
 
-        it "should responds with 401 Unauthorized if email invalid" {
+        it "should responds with 401 if no user exists with that email" {
             let res = client.post("/api/session")
                 .body(&json!({
                     "email": "user@foo.com",
@@ -35,7 +35,7 @@ describe! test {
             assert_eq!(res.status(), Status::Unauthorized);
         }
 
-        it "should responds with 401 Unauthorized if password invalid" {
+        it "should responds with 401 if password wrong" {
             let res = client.post("/api/session")
                 .body(&json!({
                     "email": "user@one.com",
@@ -45,6 +45,30 @@ describe! test {
                 .dispatch();
 
             assert_eq!(res.status(), Status::Unauthorized);
+        }
+
+        it "should responds with 400 if email invalid" {
+            let res = client.post("/api/session")
+                .body(&json!({
+                    "email": "foooo",
+                    "password": "secretone"
+                }).to_string())
+                .header(ContentType::JSON)
+                .dispatch();
+
+            assert_eq!(res.status(), Status::BadRequest);
+        }
+
+        it "should responds with 400 if password invalid" {
+            let res = client.post("/api/session")
+                .body(&json!({
+                    "email": "user@one.com",
+                    "password": ""
+                }).to_string())
+                .header(ContentType::JSON)
+                .dispatch();
+
+            assert_eq!(res.status(), Status::BadRequest);
         }
     }
 }

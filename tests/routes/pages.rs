@@ -9,11 +9,11 @@ describe! test {
 
     describe! login {
         it "responds with HTML" {
-            let mut res = client.get("/login").dispatch();
+            let mut res = client.get("/prijava").dispatch();
             let body = res.body_string().unwrap();
 
             assert_eq!(res.status(), Status::Ok);
-            assert!(body.contains("Hello Skrci.me"));
+            assert!(body.contains("Prijava"));
         }
   }
 }

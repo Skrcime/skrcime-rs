@@ -61,6 +61,57 @@ describe! test {
 
             assert_eq!(res.status(), Status::Conflict);
         }
+
+        it "should return 400 no name is sent" {
+            let mut res = client.post("/api/users")
+                .body(&json!({
+                    "name": "",
+                    "email": "user@two.com",
+                    "password": "secrettwo"
+                }).to_string())
+                .header(ContentType::JSON)
+                .dispatch();
+
+            let body = json_body(&mut res);
+            println!("{:?}", body);
+            assert_eq!(res.status(), Status::BadRequest);
+            assert!(body["message"].is_string());
+            assert_eq!(body["invalid_fields"][0], "name");
+        }
+
+        it "should return 400 no email is sent" {
+            let mut res = client.post("/api/users")
+                .body(&json!({
+                    "name": "User",
+                    "email": "",
+                    "password": "secrettwo"
+                }).to_string())
+                .header(ContentType::JSON)
+                .dispatch();
+
+            let body = json_body(&mut res);
+            println!("{:?}", body);
+            assert_eq!(res.status(), Status::BadRequest);
+            assert!(body["message"].is_string());
+            assert_eq!(body["invalid_fields"][0], "email");
+        }
+
+        it "should return 400 no password is sent" {
+            let mut res = client.post("/api/users")
+                .body(&json!({
+                    "name": "User",
+                    "email": "user@two.com",
+                    "password": ""
+                }).to_string())
+                .header(ContentType::JSON)
+                .dispatch();
+
+            let body = json_body(&mut res);
+            println!("{:?}", body);
+            assert_eq!(res.status(), Status::BadRequest);
+            assert!(body["message"].is_string());
+            assert_eq!(body["invalid_fields"][0], "password");
+        }
     }
 
     describe! get {

@@ -1,6 +1,7 @@
 use rocket;
 
 pub mod pages;
+pub mod response;
 pub mod session;
 pub mod users;
 pub mod errors;
@@ -10,8 +11,10 @@ pub fn pages() -> Vec<rocket::Route> {
     routes![
         pages::landing,
         pages::login,
+        pages::register,
         pages::landing_redirect,
-        pages::login_redirect
+        pages::login_redirect,
+        pages::register_redirect
     ]
 }
 pub fn session() -> Vec<rocket::Route> {

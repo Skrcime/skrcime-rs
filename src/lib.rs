@@ -16,6 +16,10 @@ extern crate rocket;
 extern crate rocket_contrib;
 #[macro_use]
 extern crate serde_derive;
+extern crate tera;
+extern crate validator;
+#[macro_use]
+extern crate validator_derive;
 
 mod db;
 mod routes;

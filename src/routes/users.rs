@@ -3,13 +3,18 @@ use diesel::prelude::*;
 use diesel::result::Error::{DatabaseError, NotFound};
 use diesel::result::DatabaseErrorKind::UniqueViolation;
 
-use rocket::response::{status, Failure};
+use rocket::response::Failure;
+use rocket::response::status::{Created, Custom};
 use rocket::http::Status;
 use rocket_contrib::{Json, Value};
+
+use validator::Validate;
 
 use bcrypt::hash;
 
 use super::session::Session;
+use super::response::{error_message, error_validation, user_to_json};
+
 use db::request::DbConnection;
 use db::models::{NewUser, UpdateUser, User};
 
@@ -17,8 +22,10 @@ use db::models::{NewUser, UpdateUser, User};
 pub fn create(
     conn: DbConnection,
     user: Json<NewUser>,
-) -> Result<status::Created<Json<Value>>, Failure> {
-    use db::schema::users;
+) -> Result<Created<Json<Value>>, Custom<Json<Value>>> {
+    if let Err(err) = user.validate() {
+        return Err(error_validation(err));
+    }
 
     let new_user = NewUser {
         name: user.name.to_string(),
@@ -30,21 +37,24 @@ pub fn create(
         password: hash(&user.password.to_string(), 8).expect("bcrypt error"),
     };
 
+    use db::schema::users;
     diesel::insert_into(users::table)
         .values(&new_user)
         .get_result(&*conn)
         .map(|user: User| {
             let location = format!("/users/{:?}", user.id);
-            status::Created(location, Some(user_to_json(user)))
+            Created(location, Some(user_to_json(user)))
         })
         .map_err(|err| match err {
-            DatabaseError(UniqueViolation, _) => Failure(Status::Conflict),
-            _ => Failure(Status::InternalServerError),
+            DatabaseError(UniqueViolation, _) => {
+                error_message(Status::Conflict, "User with that email already exists")
+            }
+            _ => error_message(Status::InternalServerError, "Internal server error"),
         })
 }
 
 #[get("/me")]
-pub fn get(conn: DbConnection, session: Session) -> Result<Json<Value>, Failure> {
+pub fn get(conn: DbConnection, session: Session) -> Result<Json<Value>, Custom<Json<Value>>> {
     use db::schema::users::dsl;
 
     dsl::users
@@ -52,8 +62,8 @@ pub fn get(conn: DbConnection, session: Session) -> Result<Json<Value>, Failure>
         .first::<User>(&*conn)
         .map(user_to_json)
         .map_err(|err| match err {
-            NotFound => Failure(Status::NotFound),
-            _ => Failure(Status::InternalServerError),
+            NotFound => error_message(Status::NotFound, "User not found"),
+            _ => error_message(Status::InternalServerError, "Internal server error"),
         })
 }
 #[get("/me", rank = 2)]
@@ -66,7 +76,7 @@ pub fn update(
     conn: DbConnection,
     session: Session,
     mut user: Json<UpdateUser>,
-) -> Result<Json<Value>, Failure> {
+) -> Result<Json<Value>, Custom<Json<Value>>> {
     use db::schema::users::dsl;
 
     user.password = match user.password {
@@ -79,23 +89,13 @@ pub fn update(
         .get_result(&*conn)
         .map(|user: User| Json(json!(user)))
         .map_err(|err| match err {
-            DatabaseError(UniqueViolation, _) => Failure(Status::Conflict),
-            _ => Failure(Status::InternalServerError),
+            DatabaseError(UniqueViolation, _) => {
+                error_message(Status::Conflict, "User with that email already exists")
+            }
+            _ => error_message(Status::InternalServerError, "Internal server error"),
         })
 }
 #[patch("/me", rank = 2)]
 pub fn update_401() -> Failure {
     Failure(Status::Unauthorized)
-}
-
-fn user_to_json(user: User) -> Json<Value> {
-    Json(json!({
-        "id": user.id,
-        "name": user.name,
-        "email": user.email,
-        "admin": user.admin,
-        "welcome": user.welcome,
-        "avatar_url": user.avatar_url,
-        "created_at": user.created_at,
-    }))
 }

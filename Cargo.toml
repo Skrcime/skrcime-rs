@@ -14,6 +14,9 @@ r2d2 = "0.8"
 dotenv = "0.10"
 dotenv_codegen = "0.11"
 bcrypt = "0.1"
+tera = "0.11"
+validator = "0.6"
+validator_derive = "0.6"
 
 [dependencies.chrono]
 version = "0.4"

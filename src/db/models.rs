@@ -1,4 +1,5 @@
 use chrono::NaiveDateTime;
+use validator::Validate;
 
 use super::schema::users;
 
@@ -14,12 +15,16 @@ pub struct User {
     pub created_at: NaiveDateTime,
 }
 
-#[derive(Serialize, Deserialize, Insertable, Debug)]
+#[derive(Serialize, Deserialize, Validate, Insertable, Debug)]
 #[table_name = "users"]
 pub struct NewUser {
+    #[validate(length(min = "1"))]
     pub name: String,
+    #[validate(email)]
     pub email: String,
+    #[validate(length(min = "6"))]
     pub password: String,
+    #[validate(url)]
     pub avatar_url: Option<String>,
 }
 

@@ -5,8 +5,12 @@ const onMe = e => {
 
     api
         .me()
-        .then(res => console.log(res))
-        .catch(err => console.error("Error", err));
+        .then(res => {
+            alert(JSON.stringify(res, null, "\t"));
+        })
+        .catch(err => {
+            alert(JSON.stringify(err, null, "\t"));
+        });
 };
 
 export default function init() {
