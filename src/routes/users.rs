@@ -54,7 +54,7 @@ pub fn create(
 }
 
 #[get("/me")]
-pub fn get(conn: DbConnection, session: Session) -> Result<Json<Value>, Custom<Json<Value>>> {
+pub fn get(session: Session, conn: DbConnection) -> Result<Json<Value>, Custom<Json<Value>>> {
     use db::schema::users::dsl;
 
     dsl::users
@@ -73,8 +73,8 @@ pub fn get_401() -> Failure {
 
 #[patch("/me", format = "application/json", data = "<user>")]
 pub fn update(
-    conn: DbConnection,
     session: Session,
+    conn: DbConnection,
     mut user: Json<UpdateUser>,
 ) -> Result<Json<Value>, Custom<Json<Value>>> {
     use db::schema::users::dsl;

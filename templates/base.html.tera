@@ -6,6 +6,10 @@
     <title>{% block title %}{% endblock title %} - Skrci.me</title>
 
     <link rel="stylesheet" href="/static/main.css">
+
+    {% if user_json %}
+    <script>window.USER = {{user_json | safe }};</script>
+    {% endif %}
     <script src="/static/bundle.js"></script>
   </head>
   <body data-page="{% block page %}{% endblock page %}">

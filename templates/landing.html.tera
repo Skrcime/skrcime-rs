@@ -3,7 +3,9 @@
 {% block title %}Dobrodosli{% endblock title %}
 
 {% block content %}
-    <h1>Hello Skrci.me</h1>
+    <h1>LOGO</h1>
 
-    <button id="me">Me</button>
+    <form>
+      <input type="text" name="url"/>
+    </form>
 {% endblock content %}
