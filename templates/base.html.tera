@@ -7,12 +7,13 @@
 
     <link rel="stylesheet" href="/static/main.css">
 
-    {% if user_json %}
-    <script>window.USER = {{user_json | safe }};</script>
+    {% if user %}
+    <script>window.USER = {{ user | safe }};</script>
     {% endif %}
     <script src="/static/bundle.js"></script>
   </head>
   <body data-page="{% block page %}{% endblock page %}">
+    {% include "header" %}
     {% block content %}{% endblock content %}
   </body>
 </html>

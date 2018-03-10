@@ -4,6 +4,7 @@ use diesel::result::Error::NotFound;
 use rocket::response::status::{Created, Custom};
 use rocket::http::{Cookie, Cookies, Status};
 use rocket_contrib::{Json, Value};
+use rocket::response::Redirect;
 
 use bcrypt::verify;
 use validator::Validate;
@@ -66,4 +67,10 @@ pub fn create(
                     }
                 })
         })
+}
+
+#[delete("/")]
+pub fn destroy(mut cookies: Cookies) -> Redirect {
+    cookies.remove_private(Cookie::named(COOKIE_KEY));
+    Redirect::to("/prijava")
 }

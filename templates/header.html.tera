@@ -1,0 +1,13 @@
+<header>
+  <ol>
+    {% if user %}
+    <li>
+      <a id="logout" href="/odjava">Odjava</a>
+    </li>
+    {% else %}
+    <li>
+      <a id="login" href="/prijava">Prijava</a>
+    </li>
+    {% endif %}
+  </ol>
+</header>

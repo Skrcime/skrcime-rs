@@ -6,10 +6,13 @@ use tera::Context;
 
 use db::request::DbConnection;
 use db::models::{User};
+
 use routes::session::Session;
+use routes::response::user_to_json;
+use routes::errors::server_error;
 
 #[get("/")]
-pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Redirect> {
+pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
     use db::schema::users::dsl;
 
     dsl::users
@@ -17,35 +20,24 @@ pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Redirec
         .first::<User>(&*conn)
         .map(|user: User| {
             let mut context = Context::new();
-            let user_json = &json!({
-                "id": user.id,
-                "name": user.name,
-                "email": user.email,
-                "admin": user.admin,
-                "welcome": user.welcome,
-                "avatar_url": user.avatar_url,
-                "created_at": user.created_at,
-            });
-            context.add("user_json", &user_json.to_string());
-            Template::render("landing", context)
+            context.add("user", &user_to_json(user).to_string());
+            Template::render("pages/landing", context)
         })
-        .map_err(|_err| {
-            Redirect::to("/") // TODO: redirect to 500 page
-        })
+        .map_err(|_err| server_error())
 }
 #[get("/", rank = 2)]
 fn landing_public() -> Template {
-    Template::render("landing", Context::new())
+    Template::render("pages/landing", Context::new())
 }
 
 #[get("/prijava", rank = 2)]
 fn login() -> Template {
-    Template::render("login", Context::new())
+    Template::render("pages/login", Context::new())
 }
 
 #[get("/registracija", rank = 2)]
 fn register() -> Template {
-    Template::render("register", Context::new())
+    Template::render("pages/register", Context::new())
 }
 
 #[get("/prijava")]

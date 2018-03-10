@@ -18,7 +18,7 @@ pub fn pages() -> Vec<rocket::Route> {
     ]
 }
 pub fn session() -> Vec<rocket::Route> {
-    routes![session::create]
+    routes![session::create, session::destroy]
 }
 pub fn users() -> Vec<rocket::Route> {
     routes![
@@ -30,7 +30,7 @@ pub fn users() -> Vec<rocket::Route> {
     ]
 }
 pub fn errors() -> Vec<rocket::Catcher> {
-    errors![errors::not_found]
+    errors![errors::not_found, errors::server_error]
 }
 pub fn files() -> Vec<rocket::Route> {
     routes![files::file]

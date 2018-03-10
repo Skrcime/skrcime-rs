@@ -1,11 +1,16 @@
-use std::collections::HashMap;
+use tera::Context;
 
 use rocket::Request;
 use rocket_contrib::Template;
 
 #[error(404)]
-fn not_found(req: &Request) -> Template {
-    let mut map = HashMap::new();
-    map.insert("path", req.uri().as_str());
-    Template::render("error/404", &map)
+pub fn not_found(req: &Request) -> Template {
+    let mut context = Context::new();
+    context.add("path", req.uri().as_str());
+    Template::render("errors/404", &context)
+}
+
+#[error(500)]
+pub fn server_error() -> Template {
+    Template::render("errors/500", &Context::new())
 }

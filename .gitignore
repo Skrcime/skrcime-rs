@@ -4,8 +4,10 @@
 .env
 
 /node_modules
-yarn.error.log
+yarn-error.log
 
 /static/*.js
 /static/*.css
 /static/*.map
+
+Rocket.toml
