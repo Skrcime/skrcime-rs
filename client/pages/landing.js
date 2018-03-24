@@ -1,10 +1,10 @@
 import api from "../api";
 
-const onMe = e => {
+const onNewUrl = e => {
     e.preventDefault();
 
     api
-        .me()
+        .newUrl({ target: "https://google.com" })
         .then(res => {
             alert(JSON.stringify(res, null, "\t"));
         })
@@ -13,6 +13,11 @@ const onMe = e => {
         });
 };
 
+const onGetUrls = e => {
+    e.preventDefault();
+};
+
 export default function init() {
-    document.getElementById("me").addEventListener("click", onMe);
+    document.getElementById("new-url").addEventListener("click", onNewUrl);
+    document.getElementById("get-urls").addEventListener("click", onGetUrls);
 }

@@ -4,7 +4,7 @@ use rocket_contrib::{Json, Value};
 
 use validator::ValidationErrors;
 
-use db::models::User;
+use db::models::{Url, User};
 
 pub fn user_to_json(user: User) -> Json<Value> {
     Json(json!({
@@ -15,6 +15,13 @@ pub fn user_to_json(user: User) -> Json<Value> {
         "welcome": user.welcome,
         "avatar_url": user.avatar_url,
         "created_at": user.created_at,
+    }))
+}
+
+pub fn url_to_json(url: Url) -> Json<Value> {
+    Json(json!({
+        "target": url.target,
+        "hash": url.hash,
     }))
 }
 

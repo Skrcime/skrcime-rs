@@ -20,5 +20,6 @@ const request = {
 export default {
     login: payload => request.post("/api/session", payload),
     register: payload => request.post("/api/users", payload),
+    newUrl: payload => request.post("/api/urls", payload),
     me: () => request.get("/api/users/me")
 };

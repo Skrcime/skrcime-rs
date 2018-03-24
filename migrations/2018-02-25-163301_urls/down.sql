@@ -1,1 +1,2 @@
--- This file should undo anything in `up.sql`
+DROP TABLE IF EXISTS urls CASCADE;
+DROP TABLE IF EXISTS user_urls CASCADE;
