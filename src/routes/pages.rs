@@ -2,6 +2,8 @@ use rocket_contrib::Template;
 use rocket::response::Redirect;
 use diesel::prelude::*;
 
+use diesel::prelude::*;
+
 use tera::Context;
 
 use db::request::DbConnection;
@@ -10,6 +12,9 @@ use db::models::{User};
 use routes::session::Session;
 use routes::response::user_to_json;
 use routes::errors::server_error;
+
+use db::request::DbConnection;
+use db::models::Url;
 
 #[get("/")]
 pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
@@ -47,4 +52,16 @@ fn login_redirect(_session: Session) -> Redirect {
 #[get("/registracija")]
 fn register_redirect(_session: Session) -> Redirect {
     Redirect::to("/")
+}
+
+#[get("/<hash>", rank = 3)]
+pub fn redirect(conn: DbConnection, hash: String) -> Redirect {
+    use db::schema::urls::dsl;
+
+    println!("hash {:?}", hash);
+    let url = dsl::urls.filter(dsl::hash.eq(&hash)).first::<Url>(&*conn);
+    match url {
+        Ok(url) => Redirect::to(&url.target),
+        Err(_) => Redirect::to("/"),
+    }
 }

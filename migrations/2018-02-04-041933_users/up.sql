@@ -9,7 +9,7 @@ CREATE TABLE users (
     admin boolean DEFAULT false,
     welcome boolean DEFAULT true,
     avatar_url varchar(128),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT user_email_uq UNIQUE (email)
 );
 CREATE INDEX email_idx ON users (email);

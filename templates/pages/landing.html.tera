@@ -8,4 +8,6 @@
     <form>
       <input type="text" name="url"/>
     </form>
+    <button id="new-url">New url</button>
+    <button id="get-urls">Get urls</button>
 {% endblock content %}

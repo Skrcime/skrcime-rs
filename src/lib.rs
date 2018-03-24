@@ -34,6 +34,7 @@ pub fn rocket() -> rocket::Rocket {
         .mount("/static", routes::files())
         .mount("/api/session", routes::session())
         .mount("/api/users", routes::users())
+        .mount("/api/urls", routes::urls())
         .attach(Template::fairing())
         .catch(routes::errors())
 }
