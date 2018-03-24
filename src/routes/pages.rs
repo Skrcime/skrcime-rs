@@ -2,19 +2,14 @@ use rocket_contrib::Template;
 use rocket::response::Redirect;
 use diesel::prelude::*;
 
-use diesel::prelude::*;
-
 use tera::Context;
 
 use db::request::DbConnection;
-use db::models::{User};
+use db::models::{User, Url};
 
 use routes::session::Session;
 use routes::response::user_to_json;
 use routes::errors::server_error;
-
-use db::request::DbConnection;
-use db::models::Url;
 
 #[get("/")]
 pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
