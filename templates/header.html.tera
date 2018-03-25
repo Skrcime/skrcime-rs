@@ -1,13 +1,11 @@
-<header>
-  <ol>
-    {% if user %}
-    <li>
-      <a id="logout" href="/odjava">Odjava</a>
-    </li>
-    {% else %}
-    <li>
-      <a id="login" href="/prijava">Prijava</a>
-    </li>
-    {% endif %}
-  </ol>
+<header class="navbar m-2 text-uppercase text-bold">
+    <section class="navbar-section"></section>
+    <section class="navbar-section">
+        {% if user %}
+        <a href="#" class="btn btn-link">{{ user.name }}</a>
+        <a id="logout" class="btn btn-link" href="/odjava">Odjava</a>
+        {% else %}
+        <a id="login" class="btn btn-link" href="/prijava">Prijava</a>
+        {% endif %}
+    </section>
 </header>

@@ -3,22 +3,20 @@
 {% block title %}Registracija{% endblock title %}
 
 {% block content %}
-    <h1>Registracija</h1>
+    <h2 class="text-center">Registracija</h2>
 
-    <form name="register_form" action="/api/users" method="post">
-        <div>
-            <label for="name">Ime:</label>
-            <input type="name" id="name" name="name">
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
-        </div>
-        <div>
-            <label for="password">Geslo:</label>
-            <input type="password" id="password" name="password">
-        </div>
+    <section class="inner-container centered">
+        <form class="form-group" name="register_form" action="/api/users" method="post">
+            <label class="form-label" for="input-name">Ime</label>
+            <input class="form-input" type="text" id="name" placeholder="Ime">
 
-        <button>Registracija</button>
-    </form>
+            <label class="form-label" for="input-email">Email</label>
+            <input class="form-input" type="email" id="email" placeholder="Email">
+
+            <label class="form-label" for="input-password">Geslo</label>
+            <input class="form-input" type="password" id="password" placeholder="Geslo">
+
+            <button class="btn btn-primary mt-2 float-right">Registracija</button>
+        </form>
+    </section>
 {% endblock content %}

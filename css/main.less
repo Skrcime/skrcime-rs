@@ -1,6 +1,23 @@
 
 @import './variables';
+@import './header';
+@import './landing';
 
-.skrcime {
-    color: @link-color;
+body {
+  display: grid;
+}
+
+main {
+    width: 100%;
+    max-width: @max-width;
+
+    .inner-container {
+        max-width: @inner-width;
+    }
+}
+
+a {
+    &:hover {
+        text-decoration: none;
+    }
 }
