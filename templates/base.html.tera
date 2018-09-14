@@ -5,15 +5,18 @@
     <link rel="shortcut icon" href="/static/favicon.ico">
     <title>{% block title %}{% endblock title %} - Skrci.me</title>
 
+    <link rel="stylesheet" href="//unpkg.com/spectre.css/dist/spectre.min.css">
     <link rel="stylesheet" href="/static/main.css">
 
     {% if user %}
-    <script>window.USER = {{ user | safe }};</script>
+    <script>window.USER = {{ user_json | safe }};</script>
     {% endif %}
     <script src="/static/bundle.js"></script>
   </head>
   <body data-page="{% block page %}{% endblock page %}">
     {% include "header" %}
+    <main class="centered">
     {% block content %}{% endblock content %}
+    </main>
   </body>
 </html>

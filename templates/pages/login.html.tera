@@ -3,18 +3,17 @@
 {% block title %}Prijava{% endblock title %}
 
 {% block content %}
-    <h1>Prijava</h1>
+    <h2 class="text-center">Prijava</h2>
 
-    <form name="login_form" action="/api/session" method="post">
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
-        </div>
-        <div>
-            <label for="password">Geslo:</label>
-            <input type="password" id="password" name="password">
-        </div>
+    <section class="inner-container centered">
+        <form name="login_form" action="/api/session" method="post">
+            <label class="form-label" for="input-email">Email</label>
+            <input class="form-input" type="email" id="email" placeholder="Email">
 
-        <button>Prijava</button>
-    </form>
+            <label class="form-label" for="input-password">Geslo</label>
+            <input class="form-input" type="password" id="password" placeholder="Geslo">
+
+            <button class="btn btn-primary mt-2 float-right">Prijava</button>
+        </form>
+    </section>
 {% endblock content %}

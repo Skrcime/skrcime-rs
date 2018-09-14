@@ -3,11 +3,14 @@
 {% block title %}Dobrodosli{% endblock title %}
 
 {% block content %}
-    <h1>LOGO</h1>
+    <section class="landing-logo">
+        <h1 class="text-center">LOGO</h1>
+    </section>
 
-    <form>
-      <input type="text" name="url"/>
-    </form>
-    <button id="new-url">New url</button>
-    <button id="get-urls">Get urls</button>
+    <section class="inner-container centered">
+        <div class="input-group">
+            <input type="text" class="form-input" placeholder="Vnesi URL naslov">
+            <button id="new-url" class="btn btn-primary input-group-btn">Skrci</button>
+        </div>
+    </section>
 {% endblock content %}

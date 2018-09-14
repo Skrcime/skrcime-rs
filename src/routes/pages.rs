@@ -20,7 +20,8 @@ pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Templat
         .first::<User>(&*conn)
         .map(|user: User| {
             let mut context = Context::new();
-            context.insert("user", &user_to_json(user).to_string());
+            context.insert("user", &user);
+            context.insert("user_json", &user_to_json(user).to_string());
             Template::render("pages/landing", context)
         })
         .map_err(|_err| server_error())
@@ -53,7 +54,6 @@ fn register_redirect(_session: Session) -> Redirect {
 pub fn redirect(conn: DbConnection, hash: String) -> Redirect {
     use db::schema::urls::dsl;
 
-    println!("hash {:?}", hash);
     let url = dsl::urls.filter(dsl::hash.eq(&hash)).first::<Url>(&*conn);
     match url {
         Ok(url) => Redirect::to(&url.target),

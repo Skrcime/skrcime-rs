@@ -13,11 +13,6 @@ const onNewUrl = e => {
         });
 };
 
-const onGetUrls = e => {
-    e.preventDefault();
-};
-
 export default function init() {
     document.getElementById("new-url").addEventListener("click", onNewUrl);
-    document.getElementById("get-urls").addEventListener("click", onGetUrls);
 }
