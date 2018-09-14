@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Skrci.me client side code",
   "devDependencies": {
-    "less": "^3.0.1",
+    "less": "^3.8.1",
     "less-plugin-clean-css": "^1.5.1",
-    "less-watch-compiler": "^1.11.0",
+    "less-watch-compiler": "^1.11.3",
     "npm-run-all": "^4.1.2",
-    "rollup": "^0.56.1",
-    "rollup-plugin-uglify": "^3.0.0"
+    "rollup": "^0.65.2",
+    "rollup-plugin-terser": "^2.0.2"
   },
   "scripts": {
     "build": "run-p build:*",

@@ -1,4 +1,4 @@
-import uglify from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -10,6 +10,6 @@ export default {
         sourcemap: true
     },
     plugins: [
-        production && uglify()
+        production && terser()
     ]
 }
