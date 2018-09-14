@@ -20,7 +20,7 @@ pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Templat
         .first::<User>(&*conn)
         .map(|user: User| {
             let mut context = Context::new();
-            context.add("user", &user_to_json(user).to_string());
+            context.insert("user", &user_to_json(user).to_string());
             Template::render("pages/landing", context)
         })
         .map_err(|_err| server_error())

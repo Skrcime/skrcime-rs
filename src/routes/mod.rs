@@ -35,7 +35,7 @@ pub fn urls() -> Vec<rocket::Route> {
     routes![urls::create]
 }
 pub fn errors() -> Vec<rocket::Catcher> {
-    errors![errors::not_found, errors::server_error]
+    catchers![errors::not_found, errors::server_error]
 }
 pub fn files() -> Vec<rocket::Route> {
     routes![files::file]

@@ -1,3 +1,5 @@
+#![allow(proc_macro_derive_resolution_fallback)]
+
 use chrono::NaiveDateTime;
 use validator::Validate;
 
