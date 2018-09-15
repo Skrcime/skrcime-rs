@@ -816,7 +816,7 @@ dependencies = [
  "serde 1.0.78 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.78 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "stainless 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)",
+ "stainless2 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)",
  "tera 0.11.16 (registry+https://github.com/rust-lang/crates.io-index)",
  "validator 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "validator_derive 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -839,8 +839,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "stainless"
-version = "0.1.12"
+name = "stainless2"
+version = "0.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -1267,7 +1267,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum serde_json 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)" = "59790990c5115d16027f00913e2e66de23a51f70422e549d2ad68c8c5f268f1c"
 "checksum slug 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "b3bc762e6a4b6c6fcaade73e77f9ebc6991b676f88bb2358bddb56560f073373"
 "checksum smallvec 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)" = "153ffa32fd170e9944f7e0838edf824a754ec4c1fc64746fcc9fe1f8fa602e5d"
-"checksum stainless 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)" = "906ffcf8edc86f26acfe433f26329895a00f1884352c624033642d45537b4c78"
+"checksum stainless2 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)" = "da51b6e789c91faad606937319c62c145f4902c2dc0a864a1264ed4ee737cc45"
 "checksum state 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)" = "7345c971d1ef21ffdbd103a75990a15eb03604fc8b8852ca8cb418ee1a099028"
 "checksum syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)" = "d3b891b9015c88c576343b9b3e41c2c11a51c219ef067b264bd9c8aa9b441dad"
 "checksum syn 0.13.11 (registry+https://github.com/rust-lang/crates.io-index)" = "14f9bf6292f3a61d2c716723fdb789a41bbe104168e6f496dc6497e531ea1b9b"

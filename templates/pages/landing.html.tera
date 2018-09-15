@@ -9,8 +9,8 @@
 
     <section class="inner-container centered">
         <div class="input-group">
-            <input type="text" class="form-input" placeholder="Vnesi URL naslov">
-            <button id="new-url" class="btn btn-primary input-group-btn">Skrci</button>
+            <input id="url-input" type="text" class="form-input" placeholder="Vnesi URL naslov">
+            <button id="url-action" class="btn btn-primary input-group-btn">Skrci</button>
         </div>
     </section>
 {% endblock content %}

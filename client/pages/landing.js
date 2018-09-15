@@ -3,8 +3,13 @@ import api from "../api";
 const onNewUrl = e => {
     e.preventDefault();
 
+    const target = document.getElementById("url-input").value
+    if (!target) return
+
+    const hash = Math.random().toString(36).substring(2)
+
     api
-        .newUrl({ target: "https://google.com" })
+        .newUrl({ target, hash })
         .then(res => {
             alert(JSON.stringify(res, null, "\t"));
         })
@@ -14,5 +19,5 @@ const onNewUrl = e => {
 };
 
 export default function init() {
-    document.getElementById("new-url").addEventListener("click", onNewUrl);
+    document.getElementById("url-action").addEventListener("click", onNewUrl);
 }

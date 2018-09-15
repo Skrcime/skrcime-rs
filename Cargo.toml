@@ -32,5 +32,5 @@ version = "0.3"
 features = ["tera_templates"]
 
 [dev-dependencies]
-stainless = "0.1"
+stainless2 = "0.1"
 rand = "0.4"
