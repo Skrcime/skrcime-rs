@@ -31,8 +31,4 @@ table! {
 joinable!(user_urls -> urls (url_id));
 joinable!(user_urls -> users (user_id));
 
-allow_tables_to_appear_in_same_query!(
-    urls,
-    users,
-    user_urls,
-);
+allow_tables_to_appear_in_same_query!(urls, users, user_urls,);

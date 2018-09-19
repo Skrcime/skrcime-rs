@@ -1,15 +1,15 @@
-use rocket_contrib::Template;
-use rocket::response::Redirect;
 use diesel::prelude::*;
+use rocket::response::Redirect;
+use rocket_contrib::Template;
 
 use tera::Context;
 
+use db::models::{Url, User};
 use db::request::DbConnection;
-use db::models::{User, Url};
 
-use routes::session::Session;
-use routes::response::user_to_json;
 use routes::errors::server_error;
+use routes::response::user_to_json;
+use routes::session::Session;
 
 #[get("/")]
 pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
@@ -23,8 +23,7 @@ pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Templat
             context.insert("user", &user);
             context.insert("user_json", &user_to_json(user).to_string());
             Template::render("pages/landing", context)
-        })
-        .map_err(|_err| server_error())
+        }).map_err(|_err| server_error())
 }
 #[get("/", rank = 2)]
 fn landing_public() -> Template {

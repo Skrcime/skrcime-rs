@@ -1,18 +1,18 @@
 use diesel::prelude::*;
 use diesel::result::Error::NotFound;
 
-use rocket::response::status::{Created, Custom};
 use rocket::http::{Cookie, Cookies, Status};
-use rocket_contrib::{Json, Value};
+use rocket::response::status::{Created, Custom};
 use rocket::response::Redirect;
+use rocket_contrib::{Json, Value};
 
 use bcrypt::verify;
 use validator::Validate;
 
 use super::response::{error_message, error_validation};
 
-use db::request::DbConnection;
 use db::models::User;
+use db::request::DbConnection;
 
 pub static COOKIE_KEY: &'static str = "sk_s";
 
@@ -44,8 +44,7 @@ pub fn create(
         .map_err(|err| match err {
             NotFound => error_message(Status::Unauthorized, "Invalid email or password"),
             _ => error_message(Status::InternalServerError, "Internal server error"),
-        })
-        .and_then(|user: User| {
+        }).and_then(|user: User| {
             verify(&cred.password.to_string(), &user.password)
                 .map_err(|_| error_message(Status::InternalServerError, "Internal server error"))
                 .and_then(|valid| {

@@ -1,6 +1,6 @@
-use skrcime::rocket;
-use rocket::local::Client;
 use rocket::http::{ContentType, Status};
+use rocket::local::Client;
+use skrcime::rocket;
 
 describe! test {
     before_each {

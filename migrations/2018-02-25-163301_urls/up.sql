@@ -4,7 +4,8 @@ CREATE TABLE urls (
     target text NOT NULL,
     hash varchar(32) NOT NULL,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at timestamp
+    deleted_at timestamp,
+    CONSTRAINT hash_uq UNIQUE (hash)
 );
 CREATE INDEX target_idx ON urls (target);
 CREATE INDEX hash_idx ON urls (hash);

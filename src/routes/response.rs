@@ -1,5 +1,5 @@
-use rocket::response::status::Custom;
 use rocket::http::Status;
+use rocket::response::status::Custom;
 use rocket_contrib::{Json, Value};
 
 use validator::ValidationErrors;

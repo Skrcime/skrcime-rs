@@ -1,8 +1,8 @@
-use skrcime::rocket;
-use rocket::local::Client;
-use rocket::http::{ContentType, Status};
-use serde_json::Value;
 use common::{json_body, login_cookie};
+use rocket::http::{ContentType, Status};
+use rocket::local::Client;
+use serde_json::Value;
+use skrcime::rocket;
 
 describe! test {
     before_each {

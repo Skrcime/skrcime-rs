@@ -3,8 +3,8 @@
 use chrono::NaiveDateTime;
 use validator::Validate;
 
-use super::schema::users;
 use super::schema::urls;
+use super::schema::users;
 
 #[derive(Serialize, Queryable, Identifiable, Debug)]
 pub struct Url {

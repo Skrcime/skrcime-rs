@@ -1,3 +1,3 @@
 mod pages;
-mod users;
 mod session;
+mod users;

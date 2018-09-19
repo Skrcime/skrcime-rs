@@ -1,12 +1,12 @@
 use rocket;
 
+pub mod errors;
+pub mod files;
 pub mod pages;
 pub mod response;
 pub mod session;
-pub mod users;
 pub mod urls;
-pub mod errors;
-pub mod files;
+pub mod users;
 
 pub fn pages() -> Vec<rocket::Route> {
     routes![

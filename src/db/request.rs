@@ -1,14 +1,14 @@
 use std::ops::Deref;
 
-use rocket::outcome::IntoOutcome;
 use rocket::http::Status;
+use rocket::outcome::IntoOutcome;
 use rocket::request::{self, FromRequest};
 use rocket::{Outcome, Request, State};
 
 use diesel::pg::PgConnection;
 
-use r2d2_diesel::ConnectionManager;
 use r2d2::{Pool, PooledConnection};
+use r2d2_diesel::ConnectionManager;
 
 use routes::session::{Session, COOKIE_KEY};
 

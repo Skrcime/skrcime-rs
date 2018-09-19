@@ -1,22 +1,22 @@
 use diesel;
 use diesel::prelude::*;
-use diesel::result::Error::{DatabaseError, NotFound};
 use diesel::result::DatabaseErrorKind::UniqueViolation;
+use diesel::result::Error::{DatabaseError, NotFound};
 
-use rocket::response::Failure;
-use rocket::response::status::{Created, Custom};
 use rocket::http::Status;
+use rocket::response::status::{Created, Custom};
+use rocket::response::Failure;
 use rocket_contrib::{Json, Value};
 
 use validator::Validate;
 
 use bcrypt::hash;
 
-use super::session::Session;
 use super::response::{error_message, error_validation, user_to_json};
+use super::session::Session;
 
-use db::request::DbConnection;
 use db::models::{NewUser, UpdateUser, User};
+use db::request::DbConnection;
 
 #[post("/", format = "application/json", data = "<user>")]
 pub fn create(
@@ -44,8 +44,7 @@ pub fn create(
         .map(|user: User| {
             let location = format!("/users/{:?}", user.id);
             Created(location, Some(user_to_json(user)))
-        })
-        .map_err(|err| match err {
+        }).map_err(|err| match err {
             DatabaseError(UniqueViolation, _) => {
                 error_message(Status::Conflict, "User with that email already exists")
             }

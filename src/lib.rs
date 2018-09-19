@@ -20,9 +20,11 @@ extern crate tera;
 extern crate validator;
 #[macro_use]
 extern crate validator_derive;
+extern crate rand;
 
 mod db;
 mod routes;
+mod utils;
 
 use db::pool;
 use rocket_contrib::Template;
