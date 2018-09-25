@@ -3,6 +3,7 @@ use rocket;
 pub mod errors;
 pub mod files;
 pub mod pages;
+pub mod redirect;
 pub mod response;
 pub mod session;
 pub mod urls;
@@ -16,7 +17,7 @@ pub fn pages() -> Vec<rocket::Route> {
         pages::register,
         pages::login_redirect,
         pages::register_redirect,
-        pages::redirect
+        redirect::redirect
     ]
 }
 pub fn session() -> Vec<rocket::Route> {
@@ -32,7 +33,7 @@ pub fn users() -> Vec<rocket::Route> {
     ]
 }
 pub fn urls() -> Vec<rocket::Route> {
-    routes![urls::create]
+    routes![urls::create_user, urls::create_public]
 }
 pub fn errors() -> Vec<rocket::Catcher> {
     catchers![errors::not_found, errors::server_error]

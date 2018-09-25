@@ -4,6 +4,7 @@ use chrono::NaiveDateTime;
 use validator::Validate;
 
 use super::schema::urls;
+use super::schema::user_urls;
 use super::schema::users;
 
 #[derive(Serialize, Queryable, Identifiable, Debug)]
@@ -20,8 +21,15 @@ pub struct Url {
 pub struct NewUrl {
     #[validate(url)]
     pub target: String,
-    #[validate(length(min = "1"))]
+    #[validate(length(min = "3"))]
     pub hash: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Insertable, Debug)]
+#[table_name = "user_urls"]
+pub struct UserUrl {
+    pub user_id: i32,
+    pub url_id: i32,
 }
 
 #[derive(Serialize, Queryable, Identifiable, Debug)]
@@ -39,7 +47,7 @@ pub struct User {
 #[derive(Serialize, Deserialize, Validate, Insertable, Debug)]
 #[table_name = "users"]
 pub struct NewUser {
-    #[validate(length(min = "1"))]
+    #[validate(length(min = "3"))]
     pub name: String,
     #[validate(email)]
     pub email: String,
