@@ -73,7 +73,6 @@ describe! test {
                 .dispatch();
 
             let body = json_body(&mut res);
-            println!("{:?}", body);
             assert_eq!(res.status(), Status::BadRequest);
             assert!(body["message"].is_string());
             assert_eq!(body["invalid_fields"][0], "name");
@@ -90,7 +89,6 @@ describe! test {
                 .dispatch();
 
             let body = json_body(&mut res);
-            println!("{:?}", body);
             assert_eq!(res.status(), Status::BadRequest);
             assert!(body["message"].is_string());
             assert_eq!(body["invalid_fields"][0], "email");
@@ -107,7 +105,6 @@ describe! test {
                 .dispatch();
 
             let body = json_body(&mut res);
-            println!("{:?}", body);
             assert_eq!(res.status(), Status::BadRequest);
             assert!(body["message"].is_string());
             assert_eq!(body["invalid_fields"][0], "password");
