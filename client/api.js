@@ -24,5 +24,6 @@ export default {
     logout: () => request.delete("/api/session"),
     register: payload => request.post("/api/users", payload),
     newUrl: payload => request.post("/api/urls", payload),
-    me: () => request.get("/api/users/me")
+    myUrls: () => request.get("/api/urls"),
+    me: () => request.get("/api/users/me"),
 };

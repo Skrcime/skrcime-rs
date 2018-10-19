@@ -10,22 +10,21 @@ use db::request::DbConnection;
 use routes::errors::server_error;
 use routes::response::user_to_json;
 use routes::session::Session;
+use routes::subdomain::Subdomain;
 
 #[get("/")]
-pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
-    use db::schema::users::dsl;
-
-    dsl::users
-        .filter(dsl::id.eq(&session.0))
-        .first::<User>(&*conn)
-        .map(|user: User| {
-            let mut context = Context::new();
-            context.insert("user", &user);
-            context.insert("user_json", &user_to_json(user).to_string());
-            Template::render("pages/landing", context)
-        }).map_err(|_err| server_error())
+fn subdomain(
+    session: Session,
+    subdomain: Subdomain,
+    conn: DbConnection,
+) -> Result<Template, Template> {
+    user_page(session.0, &subdomain.0, conn)
 }
 #[get("/", rank = 2)]
+fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
+    user_page(session.0, "landing", conn)
+}
+#[get("/", rank = 3)]
 fn landing_public() -> Template {
     Template::render("pages/landing", Context::new())
 }
@@ -47,4 +46,19 @@ fn login_redirect(_session: Session) -> Redirect {
 #[get("/registracija")]
 fn register_redirect(_session: Session) -> Redirect {
     Redirect::to("/")
+}
+
+fn user_page(user_id: i32, page: &str, conn: DbConnection) -> Result<Template, Template> {
+    use db::schema::users::dsl;
+
+    dsl::users
+        .filter(dsl::id.eq(user_id))
+        .first::<User>(&*conn)
+        .map(|user: User| {
+            let mut context = Context::new();
+            context.insert("user", &user);
+            context.insert("user_json", &user_to_json(user).to_string());
+            Template::render(format!("pages/{}", page), context)
+        })
+        .map_err(|_err| server_error())
 }

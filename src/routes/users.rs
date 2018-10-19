@@ -44,7 +44,8 @@ pub fn create(
         .map(|user: User| {
             let location = format!("/users/{:?}", user.id);
             Created(location, Some(user_to_json(user)))
-        }).map_err(|err| match err {
+        })
+        .map_err(|err| match err {
             DatabaseError(UniqueViolation, _) => {
                 error_message(Status::Conflict, "User with that email already exists")
             }

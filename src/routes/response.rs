@@ -18,8 +18,21 @@ pub fn user_to_json(user: User) -> Json<Value> {
     }))
 }
 
+pub fn urls_to_json(urls: Vec<Url>) -> Json<Value> {
+    let mut list = vec![];
+    for url in &urls {
+        list.push(json!({
+            "id": url.id,
+            "target": url.target,
+            "hash": url.hash,
+        }));
+    }
+    Json(json!(list))
+}
+
 pub fn url_to_json(url: Url) -> Json<Value> {
     Json(json!({
+        "id": url.id,
         "target": url.target,
         "hash": url.hash,
     }))

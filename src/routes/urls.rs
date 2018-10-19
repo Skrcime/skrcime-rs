@@ -9,7 +9,7 @@ use rocket_contrib::{Json, Value};
 
 use validator::Validate;
 
-use super::response::{error_message, error_validation, url_to_json};
+use super::response::{error_message, error_validation, url_to_json, urls_to_json};
 use super::session::Session;
 
 use utils::random_hash;
@@ -34,6 +34,24 @@ pub fn create_public(
     create(conn, url, None)
 }
 
+#[get("/")]
+pub fn get_all(session: Session, conn: DbConnection) -> Result<Json<Value>, Custom<Json<Value>>> {
+    use db::schema::user_urls::dsl;
+    use db::schema::{urls, user_urls};
+
+    let source = user_urls::table
+        .inner_join(urls::table)
+        .filter(dsl::user_id.eq(&session.0))
+        .select(urls::all_columns);
+
+    source
+        .load(&*conn)
+        .map(urls_to_json)
+        .map_err(|err| match err {
+            _ => error_message(Status::InternalServerError, "Internal server error"),
+        })
+}
+
 fn create(
     conn: DbConnection,
     url: Json<NewUrl>,
@@ -43,7 +61,7 @@ fn create(
         return Err(error_validation(err));
     }
 
-    let values = NewUrl {
+    let new_url = NewUrl {
         target: url.target.to_string(),
         hash: match url.hash {
             Some(ref hash) => Some(hash.to_string()),
@@ -55,7 +73,7 @@ fn create(
     conn.build_transaction()
         .run::<_, Error, _>(|| {
             let result: Result<Url, Error> = diesel::insert_into(urls::table)
-                .values(&values)
+                .values(&new_url)
                 .get_result(&*conn);
 
             if let Some(uid) = user_id {
@@ -71,12 +89,15 @@ fn create(
             }
 
             result
-        }).map(|url: Url| {
+        })
+        .map(|url: Url| {
             let location = format!("/urls/{:?}", url.id);
             Created(location, Some(url_to_json(url)))
-        }).map_err(|err| match err {
-            DatabaseError(UniqueViolation, _) => {
-                error_message(Status::Conflict, "User with that email already exists")
+        })
+        .map_err(|err| match err {
+            DatabaseError(UniqueViolation, err) => {
+                println!("ERR: {:?}", err);
+                error_message(Status::Conflict, "Url with that hash already exists")
             }
             _ => error_message(Status::InternalServerError, "Internal server error"),
         })

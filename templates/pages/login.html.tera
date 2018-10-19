@@ -6,7 +6,7 @@
     <h2 class="text-center">Prijava</h2>
 
     <section class="inner-container centered">
-        <form name="login_form" action="/api/session" method="post">
+        <form class="form-group" name="login_form" action="/api/session" method="post">
             <label class="form-label" for="input-email">Email</label>
             <input class="form-input" type="email" id="email" placeholder="Email">
 
@@ -15,5 +15,7 @@
 
             <button class="btn btn-primary mt-2 float-right">Prijava</button>
         </form>
+
+        <a class="btn btn-link mt-1" href="/registracija">Registracija</a>
     </section>
 {% endblock content %}

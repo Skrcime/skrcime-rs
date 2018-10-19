@@ -1,11 +1,13 @@
 <header class="navbar m-2 text-uppercase text-bold">
-    <section class="navbar-section"></section>
+    <section class="navbar-section">
+        <a class="btn btn-link" href="//skrci.me">Skrci.me</a>
+    </section>
     <section class="navbar-section">
         {% if user %}
-        <a href="#" class="btn btn-link">{{ user.name }}</a>
-        <a id="logout" class="btn btn-link" href="/odjava">Odjava</a>
+        <a href="//moj.skrci.me" class="btn btn-link">{{ user.name }}</a>
+        <a id="logout" class="btn btn-link" href="//skrci.me/odjava">Odjava</a>
         {% else %}
-        <a id="login" class="btn btn-link" href="/prijava">Prijava</a>
+        <a id="login" class="btn btn-link" href="//skrci.me/prijava">Prijava</a>
         {% endif %}
     </section>
 </header>

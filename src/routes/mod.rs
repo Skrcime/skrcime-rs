@@ -6,11 +6,13 @@ pub mod pages;
 pub mod redirect;
 pub mod response;
 pub mod session;
+pub mod subdomain;
 pub mod urls;
 pub mod users;
 
 pub fn pages() -> Vec<rocket::Route> {
     routes![
+        pages::subdomain,
         pages::landing,
         pages::landing_public,
         pages::login,
@@ -33,7 +35,7 @@ pub fn users() -> Vec<rocket::Route> {
     ]
 }
 pub fn urls() -> Vec<rocket::Route> {
-    routes![urls::create_user, urls::create_public]
+    routes![urls::create_user, urls::create_public, urls::get_all]
 }
 pub fn errors() -> Vec<rocket::Catcher> {
     catchers![errors::not_found, errors::server_error]

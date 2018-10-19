@@ -7,7 +7,7 @@ use super::schema::urls;
 use super::schema::user_urls;
 use super::schema::users;
 
-#[derive(Serialize, Queryable, Identifiable, Debug)]
+#[derive(Serialize, Queryable, Identifiable, Associations, Debug)]
 pub struct Url {
     pub id: i32,
     pub target: String,
@@ -25,14 +25,16 @@ pub struct NewUrl {
     pub hash: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Insertable, Debug)]
+#[derive(Serialize, Deserialize, Insertable, Associations, Debug)]
+#[belongs_to(User)]
+#[belongs_to(Url)]
 #[table_name = "user_urls"]
 pub struct UserUrl {
     pub user_id: i32,
     pub url_id: i32,
 }
 
-#[derive(Serialize, Queryable, Identifiable, Debug)]
+#[derive(Serialize, Queryable, Identifiable, Associations, Debug)]
 pub struct User {
     pub id: i32,
     pub name: String,

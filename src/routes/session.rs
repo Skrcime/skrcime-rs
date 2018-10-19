@@ -44,14 +44,13 @@ pub fn create(
         .map_err(|err| match err {
             NotFound => error_message(Status::Unauthorized, "Invalid email or password"),
             _ => error_message(Status::InternalServerError, "Internal server error"),
-        }).and_then(|user: User| {
+        })
+        .and_then(|user: User| {
             verify(&cred.password.to_string(), &user.password)
                 .map_err(|_| error_message(Status::InternalServerError, "Internal server error"))
                 .and_then(|valid| {
                     if valid {
-                        let mut cookie = Cookie::new(COOKIE_KEY, user.id.to_string());
-                        cookie.set_http_only(true);
-                        // cookie.set_secure(true);
+                        let cookie = get_cookie(user.id.to_string());
                         cookies.add_private(cookie);
 
                         Ok(Created(
@@ -70,6 +69,16 @@ pub fn create(
 
 #[delete("/")]
 pub fn destroy(mut cookies: Cookies) -> Redirect {
-    cookies.remove_private(Cookie::named(COOKIE_KEY));
+    let cookie = get_cookie("".to_string());
+    cookies.remove_private(cookie);
     Redirect::to("/prijava")
+}
+
+fn get_cookie(value: String) -> Cookie<'static> {
+    Cookie::build(COOKIE_KEY, value)
+        .path("/")
+        .http_only(true)
+        .domain("skrci.me")
+        // .secure(true)
+        .finish()
 }

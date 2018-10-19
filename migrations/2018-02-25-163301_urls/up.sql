@@ -12,7 +12,7 @@ CREATE INDEX hash_idx ON urls (hash);
 
 
 CREATE TABLE user_urls (
-    user_id serial PRIMARY KEY REFERENCES users (id),
+    user_id serial REFERENCES users (id),
     url_id serial REFERENCES urls (id),
     CONSTRAINT user_urls_uq UNIQUE (user_id, url_id)
 );

@@ -1,0 +1,14 @@
+{% extends "base" %}
+{% block page %}moj{% endblock page %}
+{% block title %}Dobrodosli{% endblock title %}
+
+{% block content %}
+    <section class="inner-container centered">
+        <div class="input-group">
+            <h2>Moji skrceni URLji</h2>
+
+            <ol id="list-urls">
+            </ol>
+        </div>
+    </section>
+{% endblock content %}
