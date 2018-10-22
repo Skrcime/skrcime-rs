@@ -1,4 +1,5 @@
 use diesel::prelude::*;
+use rocket::http::Cookies;
 use rocket::response::Redirect;
 use rocket_contrib::Template;
 
@@ -9,7 +10,7 @@ use db::request::DbConnection;
 
 use routes::errors::server_error;
 use routes::response::user_to_json;
-use routes::session::Session;
+use routes::session::{get_cookie, Session};
 use routes::subdomain::Subdomain;
 
 #[get("/")]
@@ -37,6 +38,13 @@ fn login() -> Template {
 #[get("/registracija", rank = 2)]
 fn register() -> Template {
     Template::render("pages/register", Context::new())
+}
+
+#[get("/odjava")]
+fn logout(mut cookies: Cookies) -> Redirect {
+    let cookie = get_cookie("".to_string());
+    cookies.remove_private(cookie);
+    Redirect::to("/")
 }
 
 #[get("/prijava")]

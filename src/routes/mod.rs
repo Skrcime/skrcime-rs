@@ -17,6 +17,7 @@ pub fn pages() -> Vec<rocket::Route> {
         pages::landing_public,
         pages::login,
         pages::register,
+        pages::logout,
         pages::login_redirect,
         pages::register_redirect,
         redirect::redirect

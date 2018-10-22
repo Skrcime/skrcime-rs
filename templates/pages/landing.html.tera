@@ -8,9 +8,6 @@
     </section>
 
     <section class="inner-container centered">
-        <div class="input-group">
-            <input id="url-input" type="text" class="form-input" placeholder="Vnesi URL naslov">
-            <button id="url-action" class="btn btn-primary input-group-btn">Skrci</button>
-        </div>
+        <shorten-url></shorten-url>
     </section>
 {% endblock content %}

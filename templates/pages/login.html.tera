@@ -6,15 +6,7 @@
     <h2 class="text-center">Prijava</h2>
 
     <section class="inner-container centered">
-        <form class="form-group" name="login_form" action="/api/session" method="post">
-            <label class="form-label" for="input-email">Email</label>
-            <input class="form-input" type="email" id="email" placeholder="Email">
-
-            <label class="form-label" for="input-password">Geslo</label>
-            <input class="form-input" type="password" id="password" placeholder="Geslo">
-
-            <button class="btn btn-primary mt-2 float-right">Prijava</button>
-        </form>
+        <login-form></login-form>
 
         <a class="btn btn-link mt-1" href="/registracija">Registracija</a>
     </section>

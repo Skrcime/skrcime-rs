@@ -74,7 +74,7 @@ pub fn destroy(mut cookies: Cookies) -> Redirect {
     Redirect::to("/prijava")
 }
 
-fn get_cookie(value: String) -> Cookie<'static> {
+pub fn get_cookie(value: String) -> Cookie<'static> {
     Cookie::build(COOKIE_KEY, value)
         .path("/")
         .http_only(true)

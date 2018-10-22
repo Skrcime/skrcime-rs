@@ -6,11 +6,32 @@
     <title>{% block title %}{% endblock title %} - Skrci.me</title>
 
     <link rel="stylesheet" href="//unpkg.com/spectre.css/dist/spectre.min.css">
-    <link rel="stylesheet" href="/static/main.css">
+    <style>
+      body {
+        display: grid;
+      }
+      main {
+        width: 100%;
+        max-width: 1024px;
+      }
+      .inner-container {
+        max-width: 640px;
+      }
+      .navbar a {
+        font-size: 0.8em;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+    </style>
+    <style type="riot"></style>
 
     {% if user %}
     <script>window.USER = {{ user_json | safe }};</script>
     {% endif %}
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/riot/3.12.0/riot.min.js"></script>
+
     <script src="/static/bundle.js"></script>
   </head>
   <body data-page="{% block page %}{% endblock page %}">
@@ -18,5 +39,7 @@
     <main class="centered">
     {% block content %}{% endblock content %}
     </main>
+
+    <script>riot.mount('*')</script>
   </body>
 </html>

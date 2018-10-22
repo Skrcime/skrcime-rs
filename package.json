@@ -1,21 +1,12 @@
 {
   "name": "skrcime-client",
   "version": "1.0.0",
-  "description": "Skrci.me client side code",
+  "description": "Skrci.me client side build with Riot",
   "devDependencies": {
-    "less": "^3.8.1",
-    "less-plugin-clean-css": "^1.5.1",
-    "less-watch-compiler": "^1.11.3",
-    "npm-run-all": "^4.1.2",
-    "rollup": "^0.65.2",
-    "rollup-plugin-terser": "^2.0.2"
+    "riot": "^3.13.0"
   },
   "scripts": {
-    "build": "run-p build:*",
-    "watch": "run-p watch:*",
-    "build:js": "rollup -c client/rollup.config.js",
-    "watch:js": "rollup -c client/rollup.config.js -w",
-    "build:css": "lessc css/main.less static/main.css --clean-css",
-    "watch:css": "less-watch-compiler css static main.less"
+    "build": "riot client/tags static/bundle.js",
+    "watch": "riot client/tags static/bundle.js -w"
   }
 }
