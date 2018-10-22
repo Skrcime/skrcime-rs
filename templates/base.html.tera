@@ -34,6 +34,7 @@
   </head>
   <body data-page="{% block page %}{% endblock page %}">
     {% include "header" %}
+
     <main class="centered">
     {% block content %}{% endblock content %}
     </main>

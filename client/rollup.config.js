@@ -1,4 +1,5 @@
 import riot  from 'rollup-plugin-riot'
+import buble from 'rollup-plugin-buble'
 import { terser } from 'rollup-plugin-terser'
 
 const production = !process.env.ROLLUP_WATCH
@@ -16,6 +17,7 @@ export default {
     },
     plugins: [
         riot(options),
+        buble(),
         production && terser()
     ],
     external: [ 'riot' ]
