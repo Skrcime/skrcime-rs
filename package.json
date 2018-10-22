@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "Skrci.me client side build with Riot",
   "devDependencies": {
-    "riot": "^3.13.0"
+    "riot": "^3.13.0",
+    "riot-compiler": "^3.5.1",
+    "rollup": "^0.66.6",
+    "rollup-plugin-riot": "^2.0.0",
+    "rollup-plugin-terser": "^3.0.0"
   },
   "scripts": {
-    "build": "riot client/tags static/bundle.js",
-    "watch": "riot client/tags static/bundle.js -w"
+    "build": "rollup -c client/rollup.config.js",
+    "watch": "rollup -c client/rollup.config.js -w"
   }
 }
