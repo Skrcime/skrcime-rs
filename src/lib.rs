@@ -21,9 +21,12 @@ extern crate validator;
 #[macro_use]
 extern crate validator_derive;
 extern crate rand;
+extern crate reqwest;
+extern crate select;
 
 mod db;
 mod routes;
+mod scrape;
 mod utils;
 
 use db::pool;

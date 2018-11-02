@@ -17,6 +17,8 @@ use utils::random_hash;
 use db::models::{NewUrl, Url, UserUrl};
 use db::request::DbConnection;
 
+use scrape;
+
 #[post("/", format = "application/json", data = "<url>")]
 pub fn create_user(
     session: Session,
@@ -91,6 +93,9 @@ fn create(
             result
         })
         .map(|url: Url| {
+            let meta = scrape::from_url(&url.target);
+            println!("Meta: {:?}", meta.unwrap());
+
             let location = format!("/urls/{:?}", url.id);
             Created(location, Some(url_to_json(url)))
         })
