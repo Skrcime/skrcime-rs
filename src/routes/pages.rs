@@ -1,7 +1,7 @@
 use diesel::prelude::*;
 use rocket::http::Cookies;
 use rocket::response::Redirect;
-use rocket_contrib::Template;
+use rocket_contrib::templates::Template;
 
 use tera::Context;
 
@@ -14,7 +14,7 @@ use routes::session::{get_cookie, Session};
 use routes::subdomain::Subdomain;
 
 #[get("/")]
-fn subdomain(
+pub fn subdomain(
     session: Session,
     subdomain: Subdomain,
     conn: DbConnection,
@@ -22,37 +22,37 @@ fn subdomain(
     user_page(session.0, &subdomain.0, conn)
 }
 #[get("/", rank = 2)]
-fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
+pub fn landing(session: Session, conn: DbConnection) -> Result<Template, Template> {
     user_page(session.0, "landing", conn)
 }
 #[get("/", rank = 3)]
-fn landing_public() -> Template {
+pub fn landing_public() -> Template {
     Template::render("pages/landing", Context::new())
 }
 
 #[get("/prijava", rank = 2)]
-fn login() -> Template {
+pub fn login() -> Template {
     Template::render("pages/login", Context::new())
 }
 
 #[get("/registracija", rank = 2)]
-fn register() -> Template {
+pub fn register() -> Template {
     Template::render("pages/register", Context::new())
 }
 
 #[get("/odjava")]
-fn logout(mut cookies: Cookies) -> Redirect {
+pub fn logout(mut cookies: Cookies) -> Redirect {
     let cookie = get_cookie("".to_string());
     cookies.remove_private(cookie);
     Redirect::to("/")
 }
 
 #[get("/prijava")]
-fn login_redirect(_session: Session) -> Redirect {
+pub fn login_redirect(_session: Session) -> Redirect {
     Redirect::to("/")
 }
 #[get("/registracija")]
-fn register_redirect(_session: Session) -> Redirect {
+pub fn register_redirect(_session: Session) -> Redirect {
     Redirect::to("/")
 }
 

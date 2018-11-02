@@ -4,7 +4,7 @@ use diesel::result::Error::NotFound;
 use rocket::http::{Cookie, Cookies, Status};
 use rocket::response::status::{Created, Custom};
 use rocket::response::Redirect;
-use rocket_contrib::{Json, Value};
+use rocket_contrib::json::{Json, JsonValue};
 
 use bcrypt::verify;
 use validator::Validate;
@@ -32,7 +32,7 @@ pub fn create(
     conn: DbConnection,
     cred: Json<Credentials>,
     mut cookies: Cookies,
-) -> Result<Created<Json<Value>>, Custom<Json<Value>>> {
+) -> Result<Created<Json<JsonValue>>, Custom<Json<JsonValue>>> {
     if let Err(err) = cred.validate() {
         return Err(error_validation(err));
     }

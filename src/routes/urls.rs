@@ -5,7 +5,7 @@ use diesel::result::{Error, Error::DatabaseError};
 
 use rocket::http::Status;
 use rocket::response::status::{Created, Custom};
-use rocket_contrib::{Json, Value};
+use rocket_contrib::json::{Json, JsonValue};
 
 use validator::Validate;
 
@@ -22,7 +22,7 @@ pub fn create_user(
     session: Session,
     conn: DbConnection,
     url: Json<NewUrl>,
-) -> Result<Created<Json<Value>>, Custom<Json<Value>>> {
+) -> Result<Created<Json<JsonValue>>, Custom<Json<JsonValue>>> {
     create(conn, url, Some(session.0))
 }
 
@@ -30,12 +30,12 @@ pub fn create_user(
 pub fn create_public(
     conn: DbConnection,
     url: Json<NewUrl>,
-) -> Result<Created<Json<Value>>, Custom<Json<Value>>> {
+) -> Result<Created<Json<JsonValue>>, Custom<Json<JsonValue>>> {
     create(conn, url, None)
 }
 
 #[get("/")]
-pub fn get_all(session: Session, conn: DbConnection) -> Result<Json<Value>, Custom<Json<Value>>> {
+pub fn get_all(session: Session, conn: DbConnection) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
     use db::schema::user_urls::dsl;
     use db::schema::{urls, user_urls};
 
@@ -56,7 +56,7 @@ fn create(
     conn: DbConnection,
     url: Json<NewUrl>,
     user_id: Option<i32>,
-) -> Result<Created<Json<Value>>, Custom<Json<Value>>> {
+) -> Result<Created<Json<JsonValue>>, Custom<Json<JsonValue>>> {
     if let Err(err) = url.validate() {
         return Err(error_validation(err));
     }

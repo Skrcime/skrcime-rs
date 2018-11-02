@@ -1,12 +1,12 @@
 use tera::Context;
 
 use rocket::Request;
-use rocket_contrib::Template;
+use rocket_contrib::templates::Template;
 
 #[catch(404)]
 pub fn not_found(req: &Request) -> Template {
     let mut context = Context::new();
-    context.insert("path", req.uri().as_str());
+    context.insert("path", req.uri().path());
     Template::render("errors/404", &context)
 }
 

@@ -5,8 +5,7 @@ use diesel::result::Error::{DatabaseError, NotFound};
 
 use rocket::http::Status;
 use rocket::response::status::{Created, Custom};
-use rocket::response::Failure;
-use rocket_contrib::{Json, Value};
+use rocket_contrib::json::{Json, JsonValue};
 
 use validator::Validate;
 
@@ -22,7 +21,7 @@ use db::request::DbConnection;
 pub fn create(
     conn: DbConnection,
     user: Json<NewUser>,
-) -> Result<Created<Json<Value>>, Custom<Json<Value>>> {
+) -> Result<Created<Json<JsonValue>>, Custom<Json<JsonValue>>> {
     if let Err(err) = user.validate() {
         return Err(error_validation(err));
     }
@@ -54,7 +53,7 @@ pub fn create(
 }
 
 #[get("/me")]
-pub fn get(session: Session, conn: DbConnection) -> Result<Json<Value>, Custom<Json<Value>>> {
+pub fn get(session: Session, conn: DbConnection) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
     use db::schema::users::dsl;
 
     dsl::users
@@ -67,8 +66,8 @@ pub fn get(session: Session, conn: DbConnection) -> Result<Json<Value>, Custom<J
         })
 }
 #[get("/me", rank = 2)]
-pub fn get_401() -> Failure {
-    Failure(Status::Unauthorized)
+pub fn get_401() -> Status {
+    Status::Unauthorized
 }
 
 #[patch("/me", format = "application/json", data = "<user>")]
@@ -76,7 +75,7 @@ pub fn update(
     session: Session,
     conn: DbConnection,
     mut user: Json<UpdateUser>,
-) -> Result<Json<Value>, Custom<Json<Value>>> {
+) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
     use db::schema::users::dsl;
 
     user.password = match user.password {
@@ -96,6 +95,6 @@ pub fn update(
         })
 }
 #[patch("/me", rank = 2)]
-pub fn update_401() -> Failure {
-    Failure(Status::Unauthorized)
+pub fn update_401() -> Status {
+    Status::Unauthorized
 }
