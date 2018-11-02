@@ -1,7 +1,6 @@
 use rocket;
 
 pub mod errors;
-pub mod files;
 pub mod pages;
 pub mod redirect;
 pub mod response;
@@ -40,7 +39,4 @@ pub fn urls() -> Vec<rocket::Route> {
 }
 pub fn errors() -> Vec<rocket::Catcher> {
     catchers![errors::not_found, errors::server_error]
-}
-pub fn files() -> Vec<rocket::Route> {
-    routes![files::file]
 }

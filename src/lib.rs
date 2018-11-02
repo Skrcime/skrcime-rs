@@ -33,7 +33,6 @@ pub fn rocket() -> rocket::Rocket {
     rocket::ignite()
         .manage(pool::init())
         .mount("/", routes::pages())
-        .mount("/static", routes::files())
         .mount("/api/session", routes::session())
         .mount("/api/users", routes::users())
         .mount("/api/urls", routes::urls())

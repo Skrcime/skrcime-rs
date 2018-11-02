@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <link rel="shortcut icon" href="/static/favicon.ico">
-    <title>{% block title %}{% endblock title %} - Skrci.me</title>
 
-    <link rel="stylesheet" href="//unpkg.com/spectre.css/dist/spectre.min.css">
+    <title>{% block title %}{% endblock title %} - Skrci.me</title>
+    <meta name="description" content="Naj bodo URLji kratki">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/spectre.css/0.5.3/spectre.min.css">
     <style>
       body {
         display: grid;
@@ -29,8 +31,6 @@
     {% if user %}
     <script>window.USER = {{ user_json | safe }};</script>
     {% endif %}
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/riot/3.12.0/riot.min.js"></script>
   </head>
   <body data-page="{% block page %}{% endblock page %}">
     {% include "header" %}
@@ -39,6 +39,7 @@
     {% block content %}{% endblock content %}
     </main>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/riot/3.12.0/riot.min.js"></script>
     <script src="/static/bundle.js"></script>
   </body>
 </html>

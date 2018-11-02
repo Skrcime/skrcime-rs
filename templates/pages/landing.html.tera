@@ -3,7 +3,7 @@
 {% block title %}Dobrodosli{% endblock title %}
 
 {% block content %}
-    <section class="landing-logo">
+    <section class="landing-logo my-2">
         <h1 class="text-center">LOGO</h1>
     </section>
 
