@@ -1,6 +1,6 @@
 #![cfg_attr(feature = "clippy", feature(plugin))]
 #![feature(plugin)]
-#![plugin(rocket_codegen)]
+#![feature(proc_macro_hygiene, decl_macro)]
 
 extern crate bcrypt;
 extern crate chrono;
@@ -11,6 +11,7 @@ extern crate dotenv;
 extern crate dotenv_codegen;
 extern crate r2d2;
 extern crate r2d2_diesel;
+#[macro_use]
 extern crate rocket;
 #[macro_use]
 extern crate rocket_contrib;
@@ -27,7 +28,7 @@ mod routes;
 mod utils;
 
 use db::pool;
-use rocket_contrib::Template;
+use rocket_contrib::templates::Template;
 
 pub fn rocket() -> rocket::Rocket {
     rocket::ignite()
@@ -37,5 +38,5 @@ pub fn rocket() -> rocket::Rocket {
         .mount("/api/users", routes::users())
         .mount("/api/urls", routes::urls())
         .attach(Template::fairing())
-        .catch(routes::errors())
+        .register(routes::errors())
 }

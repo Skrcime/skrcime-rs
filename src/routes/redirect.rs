@@ -10,7 +10,7 @@ pub fn redirect(conn: DbConnection, hash: String) -> Redirect {
 
     let url = dsl::urls.filter(dsl::hash.eq(&hash)).first::<Url>(&*conn);
     match url {
-        Ok(url) => Redirect::to(&url.target),
+        Ok(url) => Redirect::to(url.target),
         Err(_) => Redirect::to("/"),
     }
 }
