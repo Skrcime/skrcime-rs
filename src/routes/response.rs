@@ -43,7 +43,7 @@ pub fn error_message(status: Status, message: &str) -> Custom<Json<JsonValue>> {
 }
 
 pub fn error_validation(err: ValidationErrors) -> Custom<Json<JsonValue>> {
-    let fields: Vec<&str> = err.inner().iter().map(|(&key, _)| key).collect();
+    let fields: Vec<&str> = err.field_errors().iter().map(|(&key, _)| key).collect();
     Custom(
         Status::BadRequest,
         Json(json!({ "message": "Validation error", "invalid_fields": fields })),
