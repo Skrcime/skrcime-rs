@@ -35,7 +35,10 @@ pub fn create_public(
 }
 
 #[get("/")]
-pub fn get_all(session: Session, conn: DbConnection) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
+pub fn get_all(
+    session: Session,
+    conn: DbConnection,
+) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
     use db::schema::user_urls::dsl;
     use db::schema::{urls, user_urls};
 

@@ -53,7 +53,10 @@ pub fn create(
 }
 
 #[get("/me")]
-pub fn get(session: Session, conn: DbConnection) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
+pub fn get(
+    session: Session,
+    conn: DbConnection,
+) -> Result<Json<JsonValue>, Custom<Json<JsonValue>>> {
     use db::schema::users::dsl;
 
     dsl::users
