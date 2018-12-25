@@ -12,3 +12,13 @@ pub fn random_hash() -> Option<String> {
 
     hash
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_random_hash() {
+        assert_eq!(random_hash().unwrap().len(), HASH_LENGTH as usize);
+    }
+}

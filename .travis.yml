@@ -15,4 +15,4 @@ before_script:
   - diesel migration run
 
 script:
-  - cargo build
+  - cargo test
